@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.instructions.BotInstruction;
 import org.firstinspires.ftc.teamcode.instructions.Move;
+import org.firstinspires.ftc.teamcode.instructions.MoveLineDetect;
+import org.firstinspires.ftc.teamcode.instructions.PushButton;
 import org.firstinspires.ftc.teamcode.instructions.Start;
 import org.firstinspires.ftc.teamcode.instructions.Stop;
 import org.firstinspires.ftc.teamcode.instructions.Turn;
@@ -24,9 +26,34 @@ public class WarriorsAuto extends LinearOpMode {
 
     private String errorMsg = null;
 
+    Start start = null;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
+        BotMotion botMotion = initBot();
+
+        BotInstruction currentInstruction = start;
+
+        while (opModeIsActive())  {
+
+            telemetry.addData("Msg:", "InLoop");
+
+            if (currentInstruction.isComplete()) {
+                currentInstruction = currentInstruction.transition();
+                currentInstruction.doWork();
+            }
+
+            botMotion.isBallMotorOn = true;
+            robot.startUpBallMotor(botMotion);
+
+            telemetry.update();
+            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
+        }
+
+    }
+
+    private BotMotion initBot() {
         BotMotion botMotion = robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
@@ -37,16 +64,22 @@ public class WarriorsAuto extends LinearOpMode {
         telemetry.addData("Msg:", opModeIsActive());
         telemetry.update();
 
-        while (opModeIsActive())  {
 
-            telemetry.addData("Msg:", "InLoop");
+        Stop stop = new Stop();
+        Move move6 = new Move("Move6", false, 10L, stop, robot, botMotion);
+        Turn turn3 = new Turn("Turn3", true, 90L, move6, robot, botMotion);
+        Move move5 = new Move ("Move5", true, 20L, turn3, robot, botMotion);
+        PushButton pushbutton2 = new PushButton("PushButton2",move5,robot,botMotion);
+        MoveLineDetect moveLineDetect2 = new MoveLineDetect("Move4",true,20L,pushbutton2,robot,botMotion);
+        PushButton pushbutton1 = new PushButton("PushButton2",moveLineDetect2,robot,botMotion);
+        MoveLineDetect moveLineDetect1 = new MoveLineDetect("Move3", true, 20L, pushbutton1, robot, botMotion);
+        Turn turn2 = new Turn("Turn2", true, 90L, moveLineDetect1, robot, botMotion);
+        Move move2 = new Move("Move2",true,20L,turn2,robot,botMotion);
+        Turn turn1 = new Turn("Turn1",true,20L,move2,robot,botMotion);
+        Move move1 = new Move("Move1",true,20L,turn1,robot,botMotion);
 
-            botMotion.isBallMotorOn = true;
-            robot.startUpBallMotor(botMotion);
+        start = new Start(move1);
 
-            telemetry.update();
-            idle(); // Always call idle() at the bottom of your while(opModeIsActive()) loop
-        }
-
+        return botMotion;
     }
 }

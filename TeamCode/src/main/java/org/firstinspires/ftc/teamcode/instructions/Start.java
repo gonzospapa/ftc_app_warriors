@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.instructions;
  * Created by Mike on 11/12/2016.
  */
 
-public class Start extends BotInstruction {
+    public class Start extends BotInstruction {
 
     public BotInstruction nextState;
 

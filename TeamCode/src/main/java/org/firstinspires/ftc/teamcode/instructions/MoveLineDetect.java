@@ -8,12 +8,12 @@ import org.firstinspires.ftc.teamcode.WiredHardware;
  * Created by Mike on 11/12/2016.
  */
 
-public class Move extends BotInstruction {
+public class MoveLineDetect extends BotInstruction {
 
     private boolean mforward;
     private Long targetDistance;
 
-    public Move(String stateName, boolean forward, Long distance, BotInstruction nextState, WiredHardware robot, BotMotion botMotion) {
+    public MoveLineDetect(String stateName, boolean forward, Long distance, BotInstruction nextState, WiredHardware robot, BotMotion botMotion) {
         super(stateName, nextState, robot, botMotion);
         this.mforward = forward;
         this.targetDistance = distance;
@@ -32,7 +32,7 @@ public class Move extends BotInstruction {
     }
 
     @Override
-    public boolean isComplete() { return botMotion.X_Position_Inches >= targetDistance;
+    public boolean isComplete() { return botMotion.X_Position_Inches >= targetDistance || robot.bottomColorSensor.getLightDetected() > 0.8;
     }
 
     @Override

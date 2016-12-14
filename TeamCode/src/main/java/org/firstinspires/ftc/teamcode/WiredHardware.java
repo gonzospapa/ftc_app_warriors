@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -40,9 +41,11 @@ public class  WiredHardware
 
     public Imu brains;
 
-    public RgbSensor colorSensorFront = null;
-    public RgbSensor colorSensorDownLeft = null;
-    public RgbSensor colorSensorDownRight = null;
+    public OpticalDistanceSensor bottomColorSensor;
+
+    //public RgbSensor colorSensorFront = null;
+    //public RgbSensor colorSensorDownLeft = null;
+   // public RgbSensor colorSensorDownRight = null;
 
     public Servo buttonPusher = null;
 
@@ -95,6 +98,8 @@ public class  WiredHardware
 
         elevatorMotor = ahwMap.dcMotor.get("elevator");
         sweeperMotor = ahwMap.dcMotor.get("sweep");
+
+        bottomColorSensor = ahwMap.opticalDistanceSensor.get("btm_color_sensor");
 
         //colorSensorFront = new RgbSensor(ahwMap, "color_front", "dim");
         //colorSensorDownLeft = new RgbSensor(ahwMap, "color_left", "dim");
