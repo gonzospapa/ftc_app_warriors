@@ -117,13 +117,13 @@ public class WarriorsTank extends OpMode {
             botMotion.isSweepRev = 0;
 
             // Send telemetry message to signify robot running;
-            telemetry.addData("left", "%.2f", botMotion.newLeftMotorPower);
-            telemetry.addData("right", "%.2f", botMotion.newRightMotorPower);
+            telemetry.addData("left", String.valueOf(robot.leftBackMotor.getCurrentPosition()) + "");
+            telemetry.addData("right", String.valueOf(robot.rightBackMotor.getCurrentPosition()) + "");
 
             if (errorMsg != null) {
                 telemetry.addData("err", errorMsg);
             } else {
-                telemetry.addData("ball", "%.2f", botMotion.newBallMotorSpeed);
+                //telemetry.addData("ball", "%.2f", botMotion.newBallMotorSpeed);
             }
             updateTelemetry(telemetry);
 
