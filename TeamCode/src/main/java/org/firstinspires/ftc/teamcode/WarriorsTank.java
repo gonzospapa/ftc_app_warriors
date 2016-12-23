@@ -106,13 +106,11 @@ public class WarriorsTank extends OpMode {
                 botMotion.isElevatorOn = false;
             }
 
-
-
             robot.setAllMotors(botMotion);
 
-            robot.startUpBallMotor(botMotion);
+            //robot.startUpBallMotor(botMotion);
 
-            robot.startupElevatorMotor(botMotion);
+            //robot.startupElevatorMotor(botMotion);
 
             botMotion.isSweepRev = 0;
 

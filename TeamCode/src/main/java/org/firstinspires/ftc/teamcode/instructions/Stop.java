@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode.instructions;
 
+import org.firstinspires.ftc.teamcode.WiredHardware;
+
 /**
  * Created by Mike on 11/12/2016.
  */
 
 public class Stop extends BotInstruction {
 
-    public Stop() {
-        super("Stop", null, null, null);
+    public Stop(WiredHardware robot) {
+        super("Stop", null, robot, null);
     }
 
     @Override
@@ -17,12 +19,12 @@ public class Stop extends BotInstruction {
 
     @Override
     public void doWork() {
-
+        robot.stopAllMovement();
     }
 
     @Override
     public boolean isComplete() {
-        return false;
+        return true;
     }
 
     @Override

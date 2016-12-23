@@ -41,7 +41,7 @@ public class  WiredHardware
 
     public Imu brains;
 
-    public OpticalDistanceSensor bottomColorSensor;
+    //public OpticalDistanceSensor bottomColorSensor;
 
     //public RgbSensor colorSensorFront = null;
     //public RgbSensor colorSensorDownLeft = null;
@@ -55,7 +55,7 @@ public class  WiredHardware
     HardwareMap hwMap           =  null;
     private ElapsedTime period  = new ElapsedTime();
 
-    private Telemetry telemetry;
+    public Telemetry telemetry;
 
     /* Constructor */
     public WiredHardware(Telemetry telemetry) {
@@ -99,7 +99,7 @@ public class  WiredHardware
         elevatorMotor = ahwMap.dcMotor.get("elevator");
         sweeperMotor = ahwMap.dcMotor.get("sweep");
 
-        bottomColorSensor = ahwMap.opticalDistanceSensor.get("btm_color_sensor");
+       // bottomColorSensor = ahwMap.opticalDistanceSensor.get("btm_color_sensor");
 
         //colorSensorFront = new RgbSensor(ahwMap, "color_front", "dim");
         //colorSensorDownLeft = new RgbSensor(ahwMap, "color_left", "dim");
@@ -119,17 +119,17 @@ public class  WiredHardware
     private void initMotors(BotMotion botMotion) {
 
         initMotor(leftMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        //initMotor(leftBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.STOP_AND_RESET_ENCODER, 0);
+        //initMotor(leftBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(leftBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(leftBallmotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightBallmotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        //initMotor(rightBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.STOP_AND_RESET_ENCODER, 0);
+        //initMotor(rightBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(elevatorMotor, DcMotorSimple.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(sweeperMotor, DcMotorSimple.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
 
-        telemetry.addData("Say", "initMotors set");
+        //telemetry.addData("Say", "initMotors set");
 
         // Set all motors to zero power
         setAllMotors(botMotion);
@@ -172,17 +172,47 @@ public class  WiredHardware
     //sets up the ball motors.
     public void startUpBallMotor(BotMotion botMotion) {
         if (botMotion.isBallMotorOn && botMotion.newBallMotorSpeed == 0) {
-            setUpBallMotorSpeed(0.12, botMotion);
-            setUpBallMotorSpeed(0.25, botMotion);
-            setUpBallMotorSpeed(0.45, botMotion);
+            //setUpBallMotorSpeed(0.0, botMotion);
+            //setUpBallMotorSpeed(0.05, botMotion);
+            //setUpBallMotorSpeed(0.10, botMotion);
+            //setUpBallMotorSpeed(0.15, botMotion);
+            //setUpBallMotorSpeed(0.20, botMotion);
+            //setUpBallMotorSpeed(0.25, botMotion);
+            //setUpBallMotorSpeed(0.30, botMotion);
+            //setUpBallMotorSpeed(0.35, botMotion);
+            //setUpBallMotorSpeed(0.40, botMotion);
+            //setUpBallMotorSpeed(0.45, botMotion);
+            //setUpBallMotorSpeed(0.50, botMotion);
+            //setUpBallMotorSpeed(0.55, botMotion);
+            //setUpBallMotorSpeed(0.60, botMotion);
+            //setUpBallMotorSpeed(0.65, botMotion);
+            //setUpBallMotorSpeed(0.70, botMotion);
+            //setUpBallMotorSpeed(0.75, botMotion);
+            //setUpBallMotorSpeed(0.80, botMotion);
         } else if (botMotion.isBallMotorOn == false) {
+            //setUpBallMotorSpeed(0.80, botMotion);
+            //setUpBallMotorSpeed(0.75, botMotion);
+            //setUpBallMotorSpeed(0.70, botMotion);
+            //setUpBallMotorSpeed(0.65, botMotion);
+           //setUpBallMotorSpeed(0.60, botMotion);
+            //setUpBallMotorSpeed(0.55, botMotion);
+            //setUpBallMotorSpeed(0.50, botMotion);
+            //setUpBallMotorSpeed(0.45, botMotion);
+            //setUpBallMotorSpeed(0.40, botMotion);
+           //setUpBallMotorSpeed(0.35, botMotion);
+            //setUpBallMotorSpeed(0.30, botMotion);
+            //setUpBallMotorSpeed(0.25, botMotion);
+            //setUpBallMotorSpeed(0.20, botMotion);
+            //setUpBallMotorSpeed(0.15, botMotion);
+            //setUpBallMotorSpeed(0.10, botMotion);
+            //setUpBallMotorSpeed(0.05, botMotion);
             setUpBallMotorSpeed(0.0, botMotion);
         }
     }
 
     //sets the ball motor speed with a slight delay.
     public void setUpBallMotorSpeed(double speed, BotMotion botMotion) {
-        Utils.delay(100);
+        Utils.delay(1000);
 
         botMotion.newBallMotorSpeed = speed;
         this.leftBallmotor.setPower(botMotion.newBallMotorSpeed);
@@ -200,7 +230,14 @@ public class  WiredHardware
         this.sweeperMotor.setPower(botMotion.newElevatorSpeed);
         this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
 
-        telemetry.addData("Say", "Speed set");
+        //telemetry.addData("Say", "Speed set");
+    }
+
+    public void stopAllMovement() {
+        this.leftMotor.setPower(0.0);
+        this.leftBackMotor.setPower(0.0);
+        this.rightMotor.setPower(0.0);
+        this.rightBackMotor.setPower(0.0);
     }
 
     /***
