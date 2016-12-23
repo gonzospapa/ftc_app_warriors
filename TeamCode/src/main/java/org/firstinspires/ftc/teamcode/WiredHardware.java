@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.adafruit.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.parts.Imu;
+import com.qualcomm.hardware.adafruit.BNO055IMU;
 import org.firstinspires.ftc.teamcode.parts.RgbSensor;
 
 /**
@@ -39,7 +41,8 @@ public class  WiredHardware
     public DcMotor elevatorMotor = null;
     public DcMotor sweeperMotor = null;
 
-    public Imu brains;
+    public BNO055IMU imu;
+    public BNO055IMU.Parameters parameters;
 
     //public OpticalDistanceSensor bottomColorSensor;
 
@@ -80,9 +83,25 @@ public class  WiredHardware
         buttonPusher.setPosition(MID_SERVO);
         buttonPusher.setDirection(Servo.Direction.FORWARD);
 
-        //brains.init(ahwMap);
+        initIMU(ahwMap);
 
         return botMotion;
+    }
+
+    private void initIMU(HardwareMap ahwMap) {
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = ahwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
     }
 
     //Map the phone configuration to the code.
