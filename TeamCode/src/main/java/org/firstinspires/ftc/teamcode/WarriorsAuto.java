@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.instructions.Turn;
  * Created by Mike Murphy on 11/18/2016.
  */
 @Autonomous(name = "WarriorsBot: LinearOpMode", group = "WarriorsAuto")
-                     // Comment this out to add to the opmode list
+@Disabled                     // Comment this out to add to the opmode list
 public class WarriorsAuto extends LinearOpMode {
 
 
@@ -47,6 +47,7 @@ public class WarriorsAuto extends LinearOpMode {
 
             if (currentInstruction.isComplete()) {
                 currentInstruction = currentInstruction.transition();
+                currentInstruction.start();
             }
 
             if (currentInstruction == null) {

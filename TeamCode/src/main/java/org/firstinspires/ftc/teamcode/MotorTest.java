@@ -16,7 +16,7 @@ public class MotorTest extends OpMode {
     private int currentTicks = 0;
     @Override
     public void init() {
-        motor   = hardwareMap.dcMotor.get("motor");
+        motor   = hardwareMap.dcMotor.get("left_ball");
 
         initMotor(motor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
 
@@ -39,16 +39,22 @@ public class MotorTest extends OpMode {
 
         motor.setPower(speed);
 
-        double elapsedTimeSec = calcElapsedTime();
-        int elapsedTicks = motor.getCurrentPosition() - currentTicks;
-        double ticksPerSec = 0;
-        if (elapsedTicks != 0 && elapsedTimeSec != 0) {
-            ticksPerSec = elapsedTicks / elapsedTimeSec;
-        }
+        if (speed > 0 && isTime()) {
+            double elapsedTimeSec = calcElapsedTime();
+            int currentPos = motor.getCurrentPosition();
+            int elapsedTicks = currentPos - currentTicks;
+            currentTicks = currentPos;
+            double ticksPerSec = 0;
+            if (elapsedTicks != 0 && elapsedTimeSec != 0) {
+                ticksPerSec = elapsedTicks / elapsedTimeSec;
+            }
 
-        telemetry.addData("motor:", speed);
-        telemetry.addData("ticks/sec:", String.valueOf(ticksPerSec) + "");
+            telemetry.addData("motor:", speed);
+            telemetry.addData("ticks/sec:", String.valueOf(ticksPerSec) + "");
+            telemetry.addData("data:", String.valueOf(elapsedTicks) + " - " + String.valueOf(elapsedTimeSec));
+        }
         updateTelemetry(telemetry);
+
     }
 
     private void initMotor(DcMotor motor, DcMotor.Direction direction, DcMotor.RunMode runMode, double power) {
@@ -63,6 +69,13 @@ public class MotorTest extends OpMode {
         elapsedTime = (now - currentTime) / 1000.0;
         currentTime = now;
         return elapsedTime;
+    }
+
+    public boolean isTime() {
+        double elapsedTime = 0;
+        long now = System.currentTimeMillis();
+        elapsedTime = (now - currentTime);
+        return elapsedTime >= 1000;
     }
 
 }

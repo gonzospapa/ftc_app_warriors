@@ -252,6 +252,16 @@ public class  WiredHardware
         //telemetry.addData("Say", "Speed set");
     }
 
+    public void resetEncoders() throws InterruptedException
+    {
+        this.leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        this.rightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.leftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
     public void stopAllMovement() {
         this.leftMotor.setPower(0.0);
         this.leftBackMotor.setPower(0.0);
