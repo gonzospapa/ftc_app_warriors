@@ -176,7 +176,6 @@ public class  WiredHardware
     //resets the elevator speed with a slight delay.
     public void setUpElevatorMotorSpeed(double speed, BotMotion botMotion) {
     Utils.delay(100);
-
     botMotion.newElevatorSpeed = speed;
     this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
 }

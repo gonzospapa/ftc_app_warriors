@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 
 /**
  * Created by Mike on 12/22/2016.
@@ -14,9 +16,14 @@ public class MotorTest extends OpMode {
     private double speed = 0;
     private long currentTime = 0;
     private int currentTicks = 0;
+
+    OpticalDistanceSensor odsSensor;  // Hardware Device Object
+
     @Override
     public void init() {
         motor   = hardwareMap.dcMotor.get("left_ball");
+        odsSensor = hardwareMap.opticalDistanceSensor.get("sensor_ods");
+
 
         initMotor(motor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
 
@@ -34,7 +41,9 @@ public class MotorTest extends OpMode {
         }
 
         if (gamepad1.b) {
-            speed = speed - .05;
+            if (speed > 0) {
+                speed = speed - .05;
+            }
         }
 
         motor.setPower(speed);
@@ -52,6 +61,10 @@ public class MotorTest extends OpMode {
             telemetry.addData("motor:", speed);
             telemetry.addData("ticks/sec:", String.valueOf(ticksPerSec) + "");
             telemetry.addData("data:", String.valueOf(elapsedTicks) + " - " + String.valueOf(elapsedTimeSec));
+            // send the info back to driver station using telemetry function.
+            telemetry.addData("Raw",    odsSensor.getRawLightDetected());
+            telemetry.addData("Normal", odsSensor.getLightDetected());
+
         }
         updateTelemetry(telemetry);
 
