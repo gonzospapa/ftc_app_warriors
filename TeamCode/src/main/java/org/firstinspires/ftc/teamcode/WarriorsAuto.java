@@ -39,6 +39,8 @@ public class WarriorsAuto extends LinearOpMode {
 
         while (opModeIsActive())  {
 
+            Utils.setTime(botMotion);
+
             botMotion.X_Position_Inches = convert_encoder_dat_to_inches((robot.leftBackMotor.getCurrentPosition() + robot.rightBackMotor.getCurrentPosition()) / 2);
 
             //telemetry.addData("Msg:", "InLoop");

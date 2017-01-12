@@ -188,9 +188,34 @@ public class  WiredHardware
     }
 
     //sets up the ball motors.
-    public void startUpBallMotor(BotMotion botMotion) {
-        if (botMotion.isBallMotorOn && botMotion.newBallMotorSpeed == 0) {
-            //setUpBallMotorSpeed(0.0, botMotion);
+    public void setBallMotor(BotMotion botMotion) {
+        if (botMotion.shouldBallMotor) {
+            if (botMotion.isBallMotorOn) {
+                for (double i = botMotion.newBallMotorSpeed; i < .4; i = i + .05) {
+                    setUpBallMotorSpeed(i, botMotion);
+                }
+            } else {
+                for (double i = botMotion.newBallMotorSpeed; i > 0; i = i - .05) {
+                    setUpBallMotorSpeed(i, botMotion);
+                }
+            }
+        } else {
+            if (botMotion.isBallMotorOn) {
+                int leftCurrPos = leftBallmotor.getCurrentPosition();
+                int leftElapsedTicks = leftCurrPos - botMotion.leftBallMotorTicks;
+                botMotion.leftBallMotorTicks = leftCurrPos;
+                double leftTicksPerSec = Utils.getTicksPerSecond(leftElapsedTicks, botMotion.elapsedTime);
+
+                int rightCurrPos = rightBallmotor.getCurrentPosition();
+                int rightElapsedTicks = rightCurrPos - botMotion.rightBallMotorTicks;
+                botMotion.rightBallMotorTicks = rightCurrPos;
+                double rightTicksPerSec = Utils.getTicksPerSecond(rightElapsedTicks, botMotion.elapsedTime);
+            }
+        }
+
+
+        if (botMotion.isBallMotorOn) {
+            setUpBallMotorSpeed(0.0, botMotion);
             //setUpBallMotorSpeed(0.05, botMotion);
             //setUpBallMotorSpeed(0.10, botMotion);
             //setUpBallMotorSpeed(0.15, botMotion);
@@ -288,4 +313,8 @@ public class  WiredHardware
         // Reset the cycle clock for the next pass.
         period.reset();
     }
+
+    public double getSpeedtoPower(double power){ return 864.31*power+3228.81; }
+
+    public double getPowertoSpeed(double speed){return (speed-3228.81)/864.31;}
 }

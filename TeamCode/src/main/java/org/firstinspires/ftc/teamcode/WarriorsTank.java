@@ -90,10 +90,13 @@ public class WarriorsTank extends OpMode {
 
             if (gamepad2.a) {
                 botMotion.isBallMotorOn = true;
+                botMotion.shouldBallMotor = true;
            } else if (gamepad2.b) {
                 botMotion.isBallMotorOn = false;
-                botMotion.newBallMotorSpeed = 0;
-           }
+                botMotion.shouldBallMotor = true;
+           } else {
+                botMotion.shouldBallMotor = false;
+            }
 
             if (gamepad2.x) {
                 botMotion.isSweepRev = 1;
@@ -107,9 +110,11 @@ public class WarriorsTank extends OpMode {
                 botMotion.isElevatorOn = false;
             }
 
+            Utils.setTime(botMotion);
+
             robot.setAllMotors(botMotion);
 
-            //robot.startUpBallMotor(botMotion);
+            robot.setBallMotor(botMotion);
 
             //robot.startupElevatorMotor(botMotion);
 

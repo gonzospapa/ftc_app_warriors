@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
 /**
@@ -163,10 +165,28 @@ public final class Utils {
         return degrees;
     }
 
-    public static double convertEncoderDatToInches (double encoderVal)
-    {
-        return (encoderVal)/80.0;
+    public static double getTicksPerSecond(int elapsedTicks, double elapsedTimeSec) {
+        //int elapsedTicks = currentPos - currentTicks;
+        //currentTicks = currentPos;
+        double ticksPerSec = 0;
+        if (elapsedTicks != 0 && elapsedTimeSec != 0) {
+            ticksPerSec = elapsedTicks / elapsedTimeSec;
+        }
+        return ticksPerSec;
+    }
 
+    public static void setTime(BotMotion botMotion) {
+        double elapsedTime = 0;
+        long now = System.currentTimeMillis();
+        elapsedTime = (now - botMotion.currentTime);
+        botMotion.currentTime = now;
+        botMotion.ms = now;
+        botMotion.elapsedTime = elapsedTime;
+        botMotion.timeElapsed = elapsedTime;
+    }
+
+    public static double convertEncoderDatToInches (double encoderVal) {
+        return (encoderVal)/80.0;
     }
 
     double get_ods_side_value_in_inches (HardwarePushbot robot)
