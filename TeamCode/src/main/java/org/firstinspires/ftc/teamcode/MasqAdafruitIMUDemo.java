@@ -12,7 +12,7 @@ public class MasqAdafruitIMUDemo extends LinearOpMode {
 
     public void runOpMode() throws InterruptedException {
         // in this demo, the IMU is named "IMU" in the robot configuration file
-        MasqAdafruitIMU imu = new MasqAdafruitIMU("IMU", hardwareMap);
+        MasqAdafruitIMU imu = new MasqAdafruitIMU("imu", hardwareMap);
 
         // wait to see this on the Driver Station before pressing play, to make sure the IMU has been initialized
         while (!isStarted()) {
