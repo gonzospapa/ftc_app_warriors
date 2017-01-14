@@ -13,7 +13,7 @@ public class MasqMRColorSensorDemo extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         // in this demo, the color sensor is named "colorSensor" in the robot configuration file
         // the I2C address is set to 60 (0x3C), which is the default I2C address for MR Color Sensors
-        MasqMRColorSensor colorSensor = new MasqMRColorSensor("colorSensor", 60, hardwareMap);
+        MasqMRColorSensor colorSensor = new MasqMRColorSensor("rgb", 60, hardwareMap);
         colorSensor.setActiveMode(); // the LED will be on
 
         // wait to see this on the Driver Station before pressing play, to make sure the color sensor has been initialized
