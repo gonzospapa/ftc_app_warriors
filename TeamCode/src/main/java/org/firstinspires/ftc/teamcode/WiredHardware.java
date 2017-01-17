@@ -9,10 +9,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
+import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.parts.Imu;
 import com.qualcomm.hardware.adafruit.BNO055IMU;
 import org.firstinspires.ftc.teamcode.parts.RgbSensor;
-import org.firstinspires.ftc.teamcode.parts.WarriorsIMU;
 
 /**
  * This is NOT an opmode.
@@ -42,7 +43,8 @@ public class  WiredHardware
     public DcMotor elevatorMotor = null;
     public DcMotor sweeperMotor = null;
 
-    public WarriorsIMU imu;
+    public BNO055IMU imu;
+    public BNO055IMU.Parameters parameters;
 
     //public OpticalDistanceSensor bottomColorSensor;
 
@@ -89,7 +91,19 @@ public class  WiredHardware
     }
 
     private void initIMU(HardwareMap ahwMap) {
-        imu = new WarriorsIMU("imu",ahwMap);
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.calibrationDataFile = "AdafruitIMUCalibration.json"; // see the calibration sample opmode
+        parameters.loggingEnabled      = true;
+        parameters.loggingTag          = "IMU";
+        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+        // Retrieve and initialize the IMU. We expect the IMU to be attached to an I2C port
+        // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
+        // and named "imu".
+        imu = ahwMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
     }
 
     //Map the phone configuration to the code.
@@ -305,4 +319,40 @@ public class  WiredHardware
     public double getSpeedtoPower(double power){ return 864.31*power+3228.81; }
 
     public double getPowertoSpeed(double speed){return (speed-3228.81)/864.31;}
+
+    public double[] getAcclerations() {
+        Acceleration acc;
+        acc  = this.imu.getLinearAcceleration();
+        return new double[]{acc.xAccel, acc.yAccel, acc.zAccel};
+    }
+
+
+    /**
+     * This method returns a 3x1 array of doubles with the yaw, pitch, and roll in that order.
+     * The equations used in this method came from:
+     * https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles#Euler_Angles_from_Quaternion
+     */
+    public double[] getAngles() {
+        Quaternion quatAngles = this.imu.getQuaternionOrientation();
+
+        double w = quatAngles.w;
+        double x = quatAngles.x;
+        double y = quatAngles.y;
+        double z = quatAngles.z;
+
+        // for the Adafruit IMU, yaw and roll are switched
+        double roll = Math.atan2( 2*(w*x + y*z) , 1 - 2*(x*x + y*y) ) * 180.0 / Math.PI;
+        double pitch = Math.asin( 2*(w*y - x*z) ) * 180.0 / Math.PI;
+        double yaw = Math.atan2( 2*(w*z + x*y), 1 - 2*(y*y + z*z) ) * 180.0 / Math.PI;
+
+        return new double[]{yaw, pitch, roll};
+    }
+    /** Apply angle offset to angle reading to make angle readings relative to initial oritentation  */
+    double ApplyAngleOffset(double AngleReading, double Offsetangle)
+    {
+        double AdjustedAngle;
+        AdjustedAngle = Utils.normalizeDegrees((AngleReading+200)-(Offsetangle+200));
+
+        return AdjustedAngle;
+    }
 }

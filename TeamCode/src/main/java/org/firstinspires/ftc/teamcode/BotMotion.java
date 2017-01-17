@@ -11,8 +11,8 @@ public class BotMotion {
     public long currentTime = 0;
     public double elapsedTime = 0;
     public double X_Position_Inches;
-    public boolean maxDrivePowerAchieved;
-    public double maxdrivePower;
+    public boolean maxDrivePowerAchieved = false;
+    public double maxdrivePower = 0.15;
     public Velocity velocity;
     public double ms;
     public double timeElapsed;
@@ -22,8 +22,13 @@ public class BotMotion {
     public double newRightMotorPower;
     public double newLeftMotorPower;
     public double newTurningSpeed;
-    public double turningSpeed = 0.088;
+    public double turningSpeed = 0.15;//0.088;
     public double turningPowercopy = 0.0;
+
+    public double YawAngleOffset = 0.0;
+    public double xAcceleration = 0.0;
+    public double xAccelerationLast = 0.0;
+    public double xVelocity = 0.0;
 
     /**
      * If the is true we are going to change the ball motor from one state to another.

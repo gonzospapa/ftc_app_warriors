@@ -32,17 +32,17 @@ public final class Utils {
             }
 
 
-            if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.velocity.xVeloc) < 0.025)) {
+            if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.xVelocity) < 0.025)) {
                 if ((botMotion.ms - botMotion.timeElapsed) > 2000) {
                     AdjusteddrivePower = 0.3;
                 }
             }
 
             //timeElapsed was reset. Count time from no movement
-            if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.velocity.xVeloc) < 0.02)) {
+            if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
                 botMotion.timeElapsed = botMotion.ms;// copy global counter
             }
-            if (Math.abs(botMotion.velocity.xVeloc) >= 0.01)
+            if (Math.abs(botMotion.xVelocity) >= 0.01)
                 botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
 
             //HeadingShiftValue shifts the number calculations away from zero to avoid division by zero.
@@ -71,14 +71,17 @@ public final class Utils {
                 botMotion.newLeftMotorPower = AdjusteddrivePower * (1.0 - botMotion.headingError);
             }
 
-            robot.rightMotor.setPower(botMotion.newRightMotorPower);
-            robot.leftMotor.setPower(botMotion.newLeftMotorPower);
+
+            botMotion.newLeftMotorPower = botMotion.newLeftMotorPower;
+            botMotion.newRightMotorPower =  botMotion.newRightMotorPower;
+            robot.setAllMotors(botMotion);
+
         }
 
     }
 
     public static Boolean didRoboStoppedtMoving(BotMotion botMotion) {
-        if ((Math.abs(botMotion.velocity.xVeloc) < 0.02) && (Math.abs(botMotion.velocity.yVeloc) < 0.02)) {
+        if ((Math.abs(botMotion.xVelocity) < 0.02) && (Math.abs(botMotion.xVelocity) < 0.02)) {
             botMotion.maxDrivePowerAchieved = false;
             botMotion.timeElapsed = 0;
             return true;
@@ -89,14 +92,26 @@ public final class Utils {
     {
         botMotion.newTurningSpeed = slowTurning(botMotion);
 
-        robot.rightMotor.setPower(botMotion.newTurningSpeed);
-        robot.leftMotor.setPower(-botMotion.newTurningSpeed);
+        //robot.rightMotor.setPower(botMotion.newTurningSpeed);
+        //robot.leftMotor.setPower(-botMotion.newTurningSpeed);
+
+
+        botMotion.newRightMotorPower =  botMotion.newTurningSpeed;
+        botMotion.newLeftMotorPower = -botMotion.newTurningSpeed;
+        robot.setAllMotors(botMotion);
+
     }
 
     public static void turnRight(BotMotion botMotion, WiredHardware robot) {
         botMotion.newTurningSpeed = slowTurning(botMotion);
-        robot.rightMotor.setPower(-botMotion.newTurningSpeed);
-        robot.leftMotor.setPower(botMotion.newTurningSpeed);
+
+
+        botMotion.newLeftMotorPower = -botMotion.newTurningSpeed;
+        botMotion.newRightMotorPower =  botMotion.newTurningSpeed;
+        robot.setAllMotors(botMotion);
+
+        //robot.rightMotor.setPower(-botMotion.newTurningSpeed);
+        //robot.leftMotor.setPower(botMotion.newTurningSpeed);
     }
 
     public static void stopRobot(WiredHardware robot) {
@@ -130,18 +145,18 @@ public final class Utils {
             botMotion.maxDrivePowerAchieved = true;
         }
 
-        if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.velocity.yVeloc) < 0.02)) {
+        if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
             if ((botMotion.ms - botMotion.timeElapsed) > 1000) {
                 adjustedTurningSpeed = botMotion.turningSpeed;
             }
         }
 
         //timeElapsed was reset. Count time from no movement
-        if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.velocity.yVeloc) < 0.02)) {
+        if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
             botMotion.timeElapsed = botMotion.ms;// copy global counter
         }
 
-        if (Math.abs(botMotion.velocity.yVeloc) > 0.02)
+        if (Math.abs(botMotion.xVelocity) > 0.02)
             botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
 
 
@@ -213,6 +228,26 @@ return 20.0;
             //this.(e);
         }
     }
+
+    public static void IntegrateAcceleration(BotMotion botMotion) {
+        double elapsedTime = 0;
+        double duration = (botMotion.timeElapsed) * 1e-6;
+
+        if (Math.abs(botMotion.xAcceleration) > 0.01)
+        {
+            botMotion.xVelocity = (botMotion.xAcceleration+botMotion.xAccelerationLast)*0.5*duration;
+
+            botMotion.xAccelerationLast = botMotion.xAcceleration;
+        }
+        else
+        {
+            botMotion.xVelocity = 0;
+            botMotion.xAccelerationLast = 0;
+        }
+
+    }
+
+
 }
 
 
