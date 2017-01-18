@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name="WarriorsBot: Teleop Tank", group="WarriorsBot")
-@Disabled
 public class WarriorsTank extends OpMode {
     /* Declare OpMode members. */
     private WiredHardware robot = new WiredHardware(telemetry); // use the class created to define a Pushbot's hardware

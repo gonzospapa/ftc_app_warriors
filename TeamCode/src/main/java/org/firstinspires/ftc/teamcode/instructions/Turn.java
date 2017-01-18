@@ -16,6 +16,7 @@ public class Turn extends BotInstruction {
 
     @Override
     public void start() {
+        botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]);
         this.stopRobot();
     }
 
@@ -30,7 +31,12 @@ public class Turn extends BotInstruction {
 
     @Override
     public boolean isComplete() {
-        return botMotion.normalizedHeading >= this.targetHeading;
+        if (turnLeft) {
+            return botMotion.normalizedHeading <= -this.targetHeading;
+        } else {
+            return botMotion.normalizedHeading >= this.targetHeading;
+        }
+
     }
 
     @Override

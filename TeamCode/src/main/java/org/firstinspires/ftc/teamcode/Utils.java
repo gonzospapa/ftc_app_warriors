@@ -175,8 +175,8 @@ public final class Utils {
     /** Normalize the angle into the range [-180,180) */
     public static double normalizeDegrees(double degrees)
     {
-        while (degrees >= 180.0) degrees -= 360.0;
-        while (degrees < -180.0) degrees += 360.0;
+        while (degrees >= 359.0) degrees -= 360.0;
+        while (degrees < -359.0) degrees += 360.0;
         return degrees;
     }
 
@@ -247,7 +247,18 @@ return 20.0;
 
     }
 
+    public static double convertheading(double inputHeading) {
+        double retVal = 0;
+        if (inputHeading > 0) {
+            return retVal;
+        }
+        if (inputHeading < 0) {
+            retVal = inputHeading + 360;
+        }
 
+
+        return retVal;
+    }
 }
 
 
