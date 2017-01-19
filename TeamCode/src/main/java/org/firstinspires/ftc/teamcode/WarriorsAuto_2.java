@@ -37,47 +37,53 @@ public class WarriorsAuto_2 extends LinearOpMode {
 
         while (opModeIsActive())  {
 
-            telemetry.addData("Status", "in Loop");
-            telemetry.update();
+            //telemetry.addData("Status", "in Loop");
+            //telemetry.update();
 
             Utils.setTime(botMotion);
 
-            telemetry.addData("Status", "setTime");
-            telemetry.update();
+            //telemetry.addData("Status", "setTime");
+            //telemetry.update();
 
             botMotion.xAcceleration= robot.getAcclerations()[0]; //
 
-            telemetry.addData("Status", "set acc.");
-            telemetry.update();
+            //telemetry.addData("Status", "set acc.");
+            //telemetry.update();
 
             Utils.IntegrateAcceleration(botMotion);// updates integration to get velocity
 
-            telemetry.addData("Status", "set vel");
-            telemetry.update();
+            // telemetry.addData("Status", "set vel");
+            //telemetry.update();
 
             // Left Encoder is shot. Ignore it for now
             //botMotion.X_Position_Inches = convert_encoder_dat_to_inches((robot.leftBackMotor.getCurrentPosition() + robot.rightBackMotor.getCurrentPosition()) / 2);
             botMotion.X_Position_Inches = convert_encoder_dat_to_inches( robot.rightBackMotor.getCurrentPosition());
 
-            telemetry.addData("Status", "set inches");
-            telemetry.update();
+            //telemetry.addData("Status", "set inches");
+            //telemetry.update();
 
             double fixedangle = Utils.convertheading(robot.getAngles()[0]);
 
-            telemetry.addData("Status", "fixed angle");
-            telemetry.update();
+            //telemetry.addData("Status", "fixed angle");
+            //telemetry.update();
 
-            botMotion.normalizedHeading = robot.ApplyAngleOffset(fixedangle, botMotion.YawAngleOffset);
+            botMotion.normalizedHeading = Utils.ApplyAngleOffset(fixedangle, botMotion.YawAngleOffset);
 
-            telemetry.addData("Status", "norm heading");
-            telemetry.update();
+            // telemetry.addData("Status", "norm heading");
+            //telemetry.update();
 
             telemetry.addData("accelerationsX", botMotion.xAcceleration);
-
-            telemetry.addData("Encoder Left", robot.leftBackMotor.getCurrentPosition());
-            telemetry.addData("Encoder Right", robot.rightBackMotor.getCurrentPosition());
             telemetry.addData("normalizedHeading", botMotion.normalizedHeading);
+            telemetry.addData("headingError",botMotion.headingError);
+
+            telemetry.addData("turningPowercopy", botMotion.turningPowercopy);
+
             telemetry.addData("xVelocity", botMotion.xVelocity);
+            telemetry.addData("Encoder Left", robot.leftBackMotor.getPower());
+            telemetry.addData("Encoder Right", robot.rightBackMotor.getPower());
+            telemetry.addData("Encoder Left", robot.leftMotor.getPower());
+            telemetry.addData("Encoder Right", robot.rightMotor.getPower());
+
 
 
             telemetry.addData("State:", currentInstruction.getName());
@@ -122,7 +128,7 @@ public class WarriorsAuto_2 extends LinearOpMode {
         waitForStart();
         telemetry.clear();
 
-        botMotion.targetHeading = 5.0;
+        botMotion.targetHeading = 10.0;
         botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]); // Yaw is first index
 
 
@@ -141,7 +147,7 @@ public class WarriorsAuto_2 extends LinearOpMode {
         Stop stop = new Stop(robot);
 
         Turn turn1 = new Turn("Turn1", false, 90L, stop, robot, botMotion);
-        Move move1 = new Move("Move1",true,20L,turn1, robot, botMotion);
+        Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 
 
         telemetry.clear();

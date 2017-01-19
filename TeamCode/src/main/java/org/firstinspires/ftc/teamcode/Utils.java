@@ -42,11 +42,11 @@ public final class Utils {
             if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
                 botMotion.timeElapsed = botMotion.ms;// copy global counter
             }
-            if (Math.abs(botMotion.xVelocity) >= 0.01)
+            if (Math.abs(botMotion.xVelocity) >= 0.015)
                 botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
 
             //HeadingShiftValue shifts the number calculations away from zero to avoid division by zero.
-            if (botMotion.targetHeading == 180.0) {
+/*            if (botMotion.targetHeading == 180.0) {
                 if (botMotion.normalizedHeading >= 0.0)// if heading is around 180 175
                 {
                     botMotion.normalizedHeading = 180 + (180.0 - botMotion.normalizedHeading);
@@ -55,9 +55,9 @@ public final class Utils {
                 {
                     botMotion.headingError = (((180 + (180.0 + botMotion.normalizedHeading)) - (botMotion.targetHeading)) / (botMotion.targetHeading + 200)) * 2.0;
                 }
-            } else {
-                botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 2.0;
-            }
+            } else {*/
+                botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
+
 
             if (botMotion.headingError > 0.0)// we are skewed to the right. apply more power to that side.
             {
@@ -106,8 +106,8 @@ public final class Utils {
         botMotion.newTurningSpeed = slowTurning(botMotion);
 
 
-        botMotion.newLeftMotorPower = -botMotion.newTurningSpeed;
-        botMotion.newRightMotorPower =  botMotion.newTurningSpeed;
+        botMotion.newLeftMotorPower = botMotion.newTurningSpeed;
+        botMotion.newRightMotorPower =  -botMotion.newTurningSpeed;
         robot.setAllMotors(botMotion);
 
         //robot.rightMotor.setPower(-botMotion.newTurningSpeed);
@@ -123,12 +123,12 @@ public final class Utils {
         double adjustedTurningSpeed;
         double angularDifference;
 
-        angularDifference = Math.abs((botMotion.normalizedHeading + 200) - (botMotion.targetHeading + 200));
+        angularDifference = Math.abs(ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading));
         if (botMotion.maxDrivePowerAchieved == false)// startup power
         {
             adjustedTurningSpeed = botMotion.turningSpeed;
         } else {
-            if (botMotion.targetHeading == 180.0) {
+/*            if (botMotion.targetHeading == 180.0) {
                 if (botMotion.normalizedHeading >= 0.0)//
                 {
                     adjustedTurningSpeed = 0.06 + ((angularDifference * 1.3) / 1000.0);
@@ -136,8 +136,8 @@ public final class Utils {
                 {
                     adjustedTurningSpeed = 0.06 + (((180 + botMotion.normalizedHeading) * 1.3) / 1000.0);
                 }
-            }
-            adjustedTurningSpeed = 0.06 + ((angularDifference * 1.3) / 1000.0);
+            }*/
+            adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {
@@ -213,7 +213,7 @@ public final class Utils {
         //dist = (0.2117 *ExpProduct);
         //if ((dist <20.0) && (dist >=0.0)) return dist;
         //else return 20.0;
-return 20.0;
+        return 20.0;
     }
 
     public static void delay(long ms)
@@ -248,17 +248,38 @@ return 20.0;
     }
 
     public static double convertheading(double inputHeading) {
-        double retVal = 0;
-        if (inputHeading > 0) {
-            return retVal;
-        }
-        if (inputHeading < 0) {
-            retVal = inputHeading + 360;
-        }
 
+        while (inputHeading < 0.0) inputHeading += 360.0;
+        while (inputHeading >= 359.0) inputHeading -= 360.0;
 
-        return retVal;
+        return inputHeading;
     }
-}
+    /** Apply angle offset to angle reading to make angle readings relative to initial oritentation  */
+    public static double ApplyAngleOffset(double AngleReading, double Offsetangle)
+    {
+        double AdjustedAngle;
+        AdjustedAngle = Utils.convertheading(-(AngleReading-Offsetangle));
 
+        return AdjustedAngle;
+    }
+
+    public static double ComputeAngularDifference(double AngleReadingOne, double AngleReadingTwo)
+    {
+        double AngleDifference;
+        if (AngleReadingOne > 180)
+        {
+            AngleReadingOne -=360;
+        }
+
+        if (AngleReadingTwo > 180)
+        {
+            AngleReadingTwo -=360;
+        }
+
+        AngleDifference = AngleReadingOne-AngleReadingTwo;
+        return AngleDifference;
+    }
+
+
+}
 

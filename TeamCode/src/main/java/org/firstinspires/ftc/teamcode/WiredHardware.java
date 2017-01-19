@@ -50,7 +50,7 @@ public class  WiredHardware
 
     //public RgbSensor colorSensorFront = null;
     //public RgbSensor colorSensorDownLeft = null;
-   // public RgbSensor colorSensorDownRight = null;
+    // public RgbSensor colorSensorDownRight = null;
 
     public Servo buttonPusher = null;
 
@@ -120,7 +120,7 @@ public class  WiredHardware
         elevatorMotor = ahwMap.dcMotor.get("elevator");
         sweeperMotor = ahwMap.dcMotor.get("sweep");
 
-       // bottomColorSensor = ahwMap.opticalDistanceSensor.get("btm_color_sensor");
+        // bottomColorSensor = ahwMap.opticalDistanceSensor.get("btm_color_sensor");
 
         //colorSensorFront = new RgbSensor(ahwMap, "color_front", "dim");
         //colorSensorDownLeft = new RgbSensor(ahwMap, "color_left", "dim");
@@ -161,26 +161,26 @@ public class  WiredHardware
         if (botMotion.isElevatorOn && botMotion.newElevatorSpeed == 0) {
             setUpElevatorMotorSpeed(0.06  , botMotion);
             setUpElevatorMotorSpeed(0.125, botMotion);
-          //  setUpSweeperMotorSpeed(0.13, botMotion);
-          //  setUpSweeperMotorSpeed(0.25, botMotion);
+            //  setUpSweeperMotorSpeed(0.13, botMotion);
+            //  setUpSweeperMotorSpeed(0.25, botMotion);
         } else if (botMotion.isElevatorOn == false) {
             setUpElevatorMotorSpeed(0.0, botMotion);
-           // setUpSweeperMotorSpeed(0.0, botMotion);
+            // setUpSweeperMotorSpeed(0.0, botMotion);
         } //else if (botMotion.isSweepRev == 1 && sweeperMotor.getDirection().equals(DcMotorSimple.Direction.REVERSE)) {
-          //  sweeperMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-          //  setUpSweeperMotorSpeed(0.25, botMotion);
+        //  sweeperMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        //  setUpSweeperMotorSpeed(0.25, botMotion);
         //} else if (botMotion.isSweepRev == 2 && sweeperMotor.getDirection().equals(DcMotorSimple.Direction.FORWARD)) {
-           // sweeperMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-          //  setUpSweeperMotorSpeed(0.25, botMotion);
+        // sweeperMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        //  setUpSweeperMotorSpeed(0.25, botMotion);
         //}
     }
 
     //resets the elevator speed with a slight delay.
     public void setUpElevatorMotorSpeed(double speed, BotMotion botMotion) {
-    Utils.delay(100);
-    botMotion.newElevatorSpeed = speed;
-    this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
-}
+        Utils.delay(100);
+        botMotion.newElevatorSpeed = speed;
+        this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
+    }
     //resets the sweeper speed with a slight delay.
     public void setUpSweeperMotorSpeed(double speed, BotMotion botMotion) {
         Utils.delay(100);
@@ -239,12 +239,12 @@ public class  WiredHardware
             //setUpBallMotorSpeed(0.75, botMotion);
             //setUpBallMotorSpeed(0.70, botMotion);
             //setUpBallMotorSpeed(0.65, botMotion);
-           //setUpBallMotorSpeed(0.60, botMotion);
+            //setUpBallMotorSpeed(0.60, botMotion);
             //setUpBallMotorSpeed(0.55, botMotion);
             //setUpBallMotorSpeed(0.50, botMotion);
             //setUpBallMotorSpeed(0.45, botMotion);
             //setUpBallMotorSpeed(0.40, botMotion);
-           //setUpBallMotorSpeed(0.35, botMotion);
+            //setUpBallMotorSpeed(0.35, botMotion);
             //setUpBallMotorSpeed(0.30, botMotion);
             //setUpBallMotorSpeed(0.25, botMotion);
             //setUpBallMotorSpeed(0.20, botMotion);
@@ -347,12 +347,5 @@ public class  WiredHardware
 
         return new double[]{yaw, pitch, roll};
     }
-    /** Apply angle offset to angle reading to make angle readings relative to initial oritentation  */
-    double ApplyAngleOffset(double AngleReading, double Offsetangle)
-    {
-        double AdjustedAngle;
-        AdjustedAngle = Utils.normalizeDegrees((AngleReading+200)-(Offsetangle+200));
 
-        return AdjustedAngle;
-    }
 }
