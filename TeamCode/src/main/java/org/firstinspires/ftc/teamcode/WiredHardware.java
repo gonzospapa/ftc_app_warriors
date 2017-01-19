@@ -220,45 +220,6 @@ public class  WiredHardware
                 double rightTicksPerSec = Utils.getTicksPerSecond(rightElapsedTicks, botMotion.elapsedTime);
             }
         }
-
-
-        if (botMotion.isBallMotorOn) {
-            setUpBallMotorSpeed(0.0, botMotion);
-            //setUpBallMotorSpeed(0.05, botMotion);
-            //setUpBallMotorSpeed(0.10, botMotion);
-            //setUpBallMotorSpeed(0.15, botMotion);
-            //setUpBallMotorSpeed(0.20, botMotion);
-            //setUpBallMotorSpeed(0.25, botMotion);
-            //setUpBallMotorSpeed(0.30, botMotion);
-            //setUpBallMotorSpeed(0.35, botMotion);
-            //setUpBallMotorSpeed(0.40, botMotion);
-            //setUpBallMotorSpeed(0.45, botMotion);
-            //setUpBallMotorSpeed(0.50, botMotion);
-            //setUpBallMotorSpeed(0.55, botMotion);
-            //setUpBallMotorSpeed(0.60, botMotion);
-            //setUpBallMotorSpeed(0.65, botMotion);
-            //setUpBallMotorSpeed(0.70, botMotion);
-            //setUpBallMotorSpeed(0.75, botMotion);
-            //setUpBallMotorSpeed(0.80, botMotion);
-        } else if (botMotion.isBallMotorOn == false) {
-            //setUpBallMotorSpeed(0.80, botMotion);
-            //setUpBallMotorSpeed(0.75, botMotion);
-            //setUpBallMotorSpeed(0.70, botMotion);
-            //setUpBallMotorSpeed(0.65, botMotion);
-            //setUpBallMotorSpeed(0.60, botMotion);
-            //setUpBallMotorSpeed(0.55, botMotion);
-            //setUpBallMotorSpeed(0.50, botMotion);
-            //setUpBallMotorSpeed(0.45, botMotion);
-            //setUpBallMotorSpeed(0.40, botMotion);
-            //setUpBallMotorSpeed(0.35, botMotion);
-            //setUpBallMotorSpeed(0.30, botMotion);
-            //setUpBallMotorSpeed(0.25, botMotion);
-            //setUpBallMotorSpeed(0.20, botMotion);
-            //setUpBallMotorSpeed(0.15, botMotion);
-            //setUpBallMotorSpeed(0.10, botMotion);
-            //setUpBallMotorSpeed(0.05, botMotion);
-            setUpBallMotorSpeed(0.0, botMotion);
-        }
     }
 
     //sets the ball motor speed with a slight delay.
@@ -276,10 +237,10 @@ public class  WiredHardware
         this.leftBackMotor.setPower(botMotion.newLeftMotorPower);
         this.rightMotor.setPower(botMotion.newRightMotorPower);
         this.rightBackMotor.setPower(botMotion.newRightMotorPower);
-        this.leftBallmotor.setPower(botMotion.newBallMotorSpeed);
-        this.rightBallmotor.setPower(botMotion.newBallMotorSpeed);
-        this.sweeperMotor.setPower(botMotion.newElevatorSpeed);
-        this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
+        //this.leftBallmotor.setPower(botMotion.newBallMotorSpeed);
+        //this.rightBallmotor.setPower(botMotion.newBallMotorSpeed);
+        //this.sweeperMotor.setPower(botMotion.newElevatorSpeed);
+        //this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
 
         //telemetry.addData("Say", "Speed set");
     }

@@ -24,7 +24,7 @@ public class WarriorsTank extends OpMode {
             botMotion = robot.init(hardwareMap, false);
 
             // Send telemetry message to signify robot waiting;
-            telemetry.addData("Say", "Hello Warrior");
+            telemetry.addData("Say", "Hello Warrior V1");
             updateTelemetry(telemetry);
     }
 
@@ -58,7 +58,9 @@ public class WarriorsTank extends OpMode {
             // In this section we are going to pickup what the controllers are doing.
             botMotion.newLeftMotorPower = -gamepad1.left_stick_y;
             botMotion.newRightMotorPower = -gamepad1.right_stick_y;
-            
+
+            robot.setAllMotors(botMotion);
+
             robot.sweeperMotor.setPower(-gamepad2.left_stick_y);
 
              //if (botMotion.newLeftMotorPower > .75) {
@@ -109,12 +111,8 @@ public class WarriorsTank extends OpMode {
                 botMotion.isElevatorOn = false;
             }
 
-            Utils.setTime(botMotion);
-
-            robot.setAllMotors(botMotion);
-
+            //Utils.setTime(botMotion);
             robot.setBallMotor(botMotion);
-
             //robot.startupElevatorMotor(botMotion);
 
             botMotion.isSweepRev = 0;
