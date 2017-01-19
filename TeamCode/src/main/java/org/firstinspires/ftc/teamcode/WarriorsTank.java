@@ -21,7 +21,7 @@ public class WarriorsTank extends OpMode {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
-            botMotion = robot.init(hardwareMap);
+            botMotion = robot.init(hardwareMap, false);
 
             // Send telemetry message to signify robot waiting;
             telemetry.addData("Say", "Hello Warrior");

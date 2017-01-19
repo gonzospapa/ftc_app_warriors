@@ -67,8 +67,12 @@ public class  WiredHardware
         this.telemetry = telemetry;
     }
 
-    /* Initialize standard Hardware interfaces */
     public BotMotion init(HardwareMap ahwMap) {
+        return this.init(ahwMap, true);
+    }
+
+    /* Initialize standard Hardware interfaces */
+    public BotMotion init(HardwareMap ahwMap, boolean useIMU) {
 
         BotMotion botMotion = new BotMotion();
 
@@ -85,7 +89,9 @@ public class  WiredHardware
         buttonPusher.setPosition(MID_SERVO);
         buttonPusher.setDirection(Servo.Direction.FORWARD);
 
-        initIMU(ahwMap);
+        if (useIMU) {
+            initIMU(ahwMap);
+        }
 
         return botMotion;
     }
