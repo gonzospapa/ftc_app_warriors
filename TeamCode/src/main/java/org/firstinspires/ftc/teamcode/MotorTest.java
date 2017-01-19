@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 /**
  * Created by Mike on 12/22/2016.
  */
-@TeleOp(name="WarriorsBot: Teleop Tank", group="WarriorsBot")
-@Disabled
+@TeleOp(name="WarriorsBot: Teleop Tank M Test", group="WarriorsBot")
+//@Disabled
 public class MotorTest extends OpMode {
 
     public DcMotor motor  = null;
@@ -41,11 +41,11 @@ public class MotorTest extends OpMode {
     @Override
     public void loop() {
         if (gamepad1.a) {
-                ramUpMotor(motor);
+            ramUpMotor(motor);
         }
 
         if (gamepad1.b) {
-                ramDownMotor(motor);
+            ramDownMotor(motor);
         }
 
         //motor.setPower(speed);
@@ -74,17 +74,18 @@ public class MotorTest extends OpMode {
             telemetry.addData("motor:", power);
             telemetry.addData("ticks/sec:", String.valueOf(ticksPerSec) + "");
             telemetry.addData("data:", String.valueOf(elapsedTicks) + " - " + String.valueOf(elapsedTimeSec));
-            // send the info back to driver station using telemetry function.
-            telemetry.addData("Raw",    odsSensor.getRawLightDetected());
-            telemetry.addData("Normal", odsSensor.getLightDetected());
+
 
         }
+        // send the info back to driver station using telemetry function.
+        telemetry.addData("Raw",    odsSensor.getRawLightDetected());
+        telemetry.addData("Inches", ConvertSharpSensorvToInches(odsSensor.getRawLightDetected()));
         updateTelemetry(telemetry);
 
     }
-public double getSpeedtoPower(double power){ return 864.31*power+3228.81; }
+    public double getSpeedtoPower(double power){ return 864.31*power+3228.81; }
 
-public double getPowertoSpeed(double speed){return (speed-3228.81)/864.31;}
+    public double getPowertoSpeed(double speed){return (speed-3228.81)/864.31;}
 
     private void initMotor(DcMotor motor, DcMotor.Direction direction, DcMotor.RunMode runMode, double power) {
         motor.setDirection(direction);
@@ -135,5 +136,12 @@ public double getPowertoSpeed(double speed){return (speed-3228.81)/864.31;}
         Utils.delay(1000);
         motor.setPower(speed);
     }
+    public double ConvertSharpSensorvToInches(double volts) {
+
+        double distance = 11.1273 * (1.0/volts);
+
+        return Math.pow(distance,1.996);
+    }
+
 
 }

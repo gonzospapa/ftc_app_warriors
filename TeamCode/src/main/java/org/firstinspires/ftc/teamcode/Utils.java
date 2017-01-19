@@ -280,6 +280,42 @@ public final class Utils {
         return AngleDifference;
     }
 
+    public static boolean AreWeInFrontOfWall(WiredHardware robot)
+    {
+        if (robot.odsSensor.getRawLightDetected() > 1.7)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public static boolean IsWhiteLineThere(WiredHardware robot)
+    {
+        if (robot.odsSensorForLineDetect.getRawLightDetected() > 1.7) // NEED TO FIND OUT WHAT THIS VALUE IS
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    public static boolean IsBlue(WiredHardware robot) // If its not blue, then it must be red. what else.
+    {
+        if ((robot.sensorRGB.red()/robot.sensorRGB.blue()) < 2.0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
 

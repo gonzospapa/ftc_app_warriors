@@ -31,7 +31,7 @@ public class MoveToWall extends BotInstruction {
     }
 
     @Override
-    public boolean isComplete() { return botMotion.X_Position_Inches >= targetDistance;
+    public boolean isComplete() { return botMotion.X_Position_Inches >= targetDistance || Utils.AreWeInFrontOfWall(this.robot);
     }
 
     @Override

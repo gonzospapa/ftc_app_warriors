@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.adafruit.JustLoggingAccelerationIntegrator;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -45,6 +46,10 @@ public class  WiredHardware
 
     public BNO055IMU imu;
     public BNO055IMU.Parameters parameters;
+
+    public  OpticalDistanceSensor odsSensor;  // Hardware Device Object
+    public  OpticalDistanceSensor odsSensorForLineDetect;  // Hardware Device Object
+    public ColorSensor sensorRGB;
 
     //public OpticalDistanceSensor bottomColorSensor;
 
@@ -91,6 +96,8 @@ public class  WiredHardware
 
         if (useIMU) {
             initIMU(ahwMap);
+            initODS(ahwMap);
+            initAdaFruitRGB(ahwMap);
         }
 
         return botMotion;
@@ -111,6 +118,19 @@ public class  WiredHardware
         imu = ahwMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
     }
+
+    private void initODS(HardwareMap ahwMap) {
+
+        odsSensor = ahwMap.opticalDistanceSensor.get("sensor_ods");
+
+        odsSensorForLineDetect = ahwMap.opticalDistanceSensor.get("sensor_ods_line");
+    }
+    private void initAdaFruitRGB(HardwareMap ahwMap) {
+
+        // get a reference to our ColorSensor object.
+        sensorRGB = ahwMap.colorSensor.get("sensor_color");
+    }
+
 
     //Map the phone configuration to the code.
     private void mapHardwareDevices(HardwareMap ahwMap) {

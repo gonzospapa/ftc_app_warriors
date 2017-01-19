@@ -32,7 +32,7 @@ public class MoveLineDetect extends BotInstruction {
     }
 
     @Override
-    public boolean isComplete() { return botMotion.X_Position_Inches >= targetDistance; //|| robot.bottomColorSensor.getLightDetected() > 0.8;
+    public boolean isComplete() { return botMotion.X_Position_Inches >= targetDistance || Utils.IsWhiteLineThere(this.robot);
     }
 
     @Override
