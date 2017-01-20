@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.instructions.BotInstruction;
 import org.firstinspires.ftc.teamcode.instructions.Move;
+import org.firstinspires.ftc.teamcode.instructions.MoveLineDetect;
+import org.firstinspires.ftc.teamcode.instructions.MoveToWall;
+import org.firstinspires.ftc.teamcode.instructions.PushButton;
 import org.firstinspires.ftc.teamcode.instructions.Start;
 import org.firstinspires.ftc.teamcode.instructions.Stop;
 import org.firstinspires.ftc.teamcode.instructions.Turn;
@@ -144,8 +147,47 @@ public class WarriorsAuto_2 extends LinearOpMode {
         //Move move2 = new Move("Move2",true,20L,turn2,robot,botMotion);
         //Turn turn1 = new Turn("Turn1",true,20L,move2,robot,botMotion);
 
-        Stop stop = new Stop(robot);
+        //Stop stop = new Stop(robot);
+        //PushButton pushButton2 = new PushButton("Move1", stop, robot, botMotion, true);
+        //MoveLineDetect lineDetect2 = new MoveLineDetect("Move1", true, 30L, pushButton2, robot, botMotion);
+        //PushButton pushButton = new PushButton("Move1", lineDetect2, robot, botMotion, true);
+        //MoveLineDetect lineDetect = new MoveLineDetect("Move1", true, 30L, pushButton, robot, botMotion);
+        //Turn turn2 = new Turn("Turn2", true, 90L, lineDetect, robot, botMotion);
+        //MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, turn2, robot, botMotion);
+        //Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
+        //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 
+        //Stop stop = new Stop(robot);
+        //PushButton pushButton = new PushButton("Move1", stop, robot, botMotion, true);
+       //MoveLineDetect lineDetect = new MoveLineDetect("Move1", true, 30L, pushButton, robot, botMotion);
+        //Turn turn2 = new Turn("Turn2", true, 90L, lineDetect, robot, botMotion);
+        //MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, turn2, robot, botMotion);
+        //Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
+        //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+
+        //Move to line
+        //Stop stop = new Stop(robot);
+        //MoveLineDetect lineDetect = new MoveLineDetect("Move1",true,30L,stop, robot, botMotion);
+        //Turn turn2 = new Turn("Turn2", true, 90L, lineDetect, robot, botMotion);
+        //MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, turn2, robot, botMotion);
+        //Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
+        //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+
+        //Move to wall and trun
+       // Stop stop = new Stop(robot);
+       // Turn turn2 = new Turn("Turn2", true, 90L, stop, robot, botMotion);
+       // MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, turn2, robot, botMotion);
+       // Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
+       // Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+
+        // Move to wall
+        //Stop stop = new Stop(robot);
+        //MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, stop, robot, botMotion);
+        //Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
+        //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+
+        // Turn and Move
+        Stop stop = new Stop(robot);
         Turn turn1 = new Turn("Turn1", false, 90L, stop, robot, botMotion);
         Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 

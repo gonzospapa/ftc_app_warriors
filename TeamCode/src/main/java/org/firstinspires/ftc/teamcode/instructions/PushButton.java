@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.instructions;
 
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.BotMotion;
+import org.firstinspires.ftc.teamcode.Utils;
 import org.firstinspires.ftc.teamcode.WiredHardware;
 
 /**
@@ -10,10 +13,13 @@ import org.firstinspires.ftc.teamcode.WiredHardware;
 public class PushButton extends BotInstruction {
 
     private BotInstruction nextState;
+    private boolean lookingForBlue = false;
+    private boolean isComplete = false;
 
-    public PushButton(String stateName, BotInstruction nextState, WiredHardware robot, BotMotion botMotion) {
+    public PushButton(String stateName, BotInstruction nextState, WiredHardware robot, BotMotion botMotion, boolean areWeLookingForBlue) {
         super(stateName, nextState, robot, botMotion);
         this.nextState = nextState;
+        lookingForBlue = areWeLookingForBlue;
     }
 
     @Override
@@ -23,12 +29,29 @@ public class PushButton extends BotInstruction {
 
     @Override
     public void doWork() {
-
+        if (lookingForBlue) {
+            if (Utils.IsBlue(robot)) {
+                robot.buttonPusher.setDirection(Servo.Direction.REVERSE);
+                robot.buttonPusher.setPosition(.75);
+            } else {
+                robot.buttonPusher.setDirection(Servo.Direction.FORWARD);
+                robot.buttonPusher.setPosition(.75);
+            }
+        } else {
+            if (Utils.IsBlue(robot)) {
+                robot.buttonPusher.setDirection(Servo.Direction.FORWARD);
+                robot.buttonPusher.setPosition(.75);
+            } else {
+                robot.buttonPusher.setDirection(Servo.Direction.REVERSE);
+                robot.buttonPusher.setPosition(.75);
+            }
+        }
+        isComplete = true;
     }
 
     @Override
     public boolean isComplete() {
-        return false;
+        return isComplete;
     }
 
     @Override
