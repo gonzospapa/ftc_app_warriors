@@ -21,10 +21,10 @@ public final class Utils {
             if (botMotion.maxDrivePowerAchieved == false)// startup power
             {
 
-                AdjusteddrivePower = 0.045 + (Math.pow(botMotion.X_Position_Inches + 2, 2.5)) / 8000.0;
+                AdjusteddrivePower = 0.02 + (Math.pow(botMotion.X_Position_Inches + 1, 2)) / 10000.0;
             } else// slow down power as we approach target position
             {
-                AdjusteddrivePower = 0.03 + (Math.pow(Distancedifference + 1, 2)) / 8000.0;
+                AdjusteddrivePower = 0.02 + (Math.pow(Distancedifference + 1, 2)) / 10000.0;
             }
 
             if (AdjusteddrivePower > botMotion.maxdrivePower) {
@@ -35,7 +35,7 @@ public final class Utils {
 
             if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.xVelocity) < 0.025)) {
                 if ((botMotion.ms - botMotion.timeElapsed) > 2000) {
-                    AdjusteddrivePower = 0.3;
+                    AdjusteddrivePower = 0.2;
                 }
             }
 
@@ -46,17 +46,6 @@ public final class Utils {
             if (Math.abs(botMotion.xVelocity) >= 0.015)
                 botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
 
-            //HeadingShiftValue shifts the number calculations away from zero to avoid division by zero.
-/*            if (botMotion.targetHeading == 180.0) {
-                if (botMotion.normalizedHeading >= 0.0)// if heading is around 180 175
-                {
-                    botMotion.normalizedHeading = 180 + (180.0 - botMotion.normalizedHeading);
-                    botMotion.headingError = ((botMotion.targetHeading - botMotion.normalizedHeading) / (botMotion.targetHeading + 200)) * 2.0;
-                } else// normalizedHeading is less than zero
-                {
-                    botMotion.headingError = (((180 + (180.0 + botMotion.normalizedHeading)) - (botMotion.targetHeading)) / (botMotion.targetHeading + 200)) * 2.0;
-                }
-            } else {*/
             botMotion.headingError = ((ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading)) / (botMotion.targetHeading+70.0)); // adjust for heading correction
             //botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
 
@@ -82,7 +71,9 @@ public final class Utils {
 
     }
 
-    public static Boolean didRoboStoppedtMoving(BotMotion botMotion) {
+    public static Boolean didRoboStoppedtMoving(BotMotion botMotion, WiredHardware robot) {
+        botMotion.xAcceleration= robot.getAcclerations()[0]; //
+        Utils.IntegrateAcceleration(botMotion);// updates integration to get velocity
         if ((Math.abs(botMotion.xVelocity) < 0.02) && (Math.abs(botMotion.xVelocity) < 0.02)) {
             botMotion.maxDrivePowerAchieved = false;
             botMotion.timeElapsed = 0;
@@ -130,17 +121,9 @@ public final class Utils {
         {
             adjustedTurningSpeed = botMotion.turningSpeed;
         } else {
-/*            if (botMotion.targetHeading == 180.0) {
-                if (botMotion.normalizedHeading >= 0.0)//
-                {
-                    adjustedTurningSpeed = 0.06 + ((angularDifference * 1.3) / 1000.0);
-                } else// normalizedHeading is less than zero i e -179
-                {
-                    adjustedTurningSpeed = 0.06 + (((180 + botMotion.normalizedHeading) * 1.3) / 1000.0);
-                }
-            }*/
+
             //adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
-            adjustedTurningSpeed = 0.045 + ((angularDifference) / 800.0);
+            adjustedTurningSpeed = 0.035 + ((angularDifference) / 1000.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {

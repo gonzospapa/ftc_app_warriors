@@ -131,7 +131,7 @@ public class WarriorsAuto_2 extends LinearOpMode {
         waitForStart();
         telemetry.clear();
 
-        botMotion.targetHeading = 10.0;
+        //botMotion.targetHeading = 40.0;
         botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]); // Yaw is first index
 
 
@@ -188,8 +188,10 @@ public class WarriorsAuto_2 extends LinearOpMode {
 
         // Turn and Move
         Stop stop = new Stop(robot);
+        Turn turn2 = new Turn("Turn2", false, 90L, stop, robot, botMotion);
+        Move move2 = new Move("Move2",true,10L,turn2, robot, botMotion);
         Turn turn1 = new Turn("Turn1", false, 90L, stop, robot, botMotion);
-        Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+        Move move1 = new Move("Move1",true,20L,turn1, robot, botMotion);
 
 
         telemetry.clear();

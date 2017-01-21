@@ -12,7 +12,7 @@ public class BotMotion {
     public double elapsedTime = 0;
     public double X_Position_Inches;
     public boolean maxDrivePowerAchieved = false;
-    public double maxdrivePower = 0.15;
+    public double maxdrivePower = 0.15; //0.15;
     public Velocity velocity;
     public double ms;
     public double timeElapsed;
@@ -22,7 +22,7 @@ public class BotMotion {
     public double newRightMotorPower;
     public double newLeftMotorPower;
     public double newTurningSpeed;
-    public double turningSpeed = 0.15;//0.088;
+    public double turningSpeed = 0.16;
     public double turningPowercopy = 0.0;
 
     public double YawAngleOffset = 0.0;

@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.WiredHardware;
 
 public class Turn extends BotInstruction {
     private boolean turnLeft;
-    private Long targetHeading;
+    private double targetHeading;
 
     public Turn(String stateName, boolean turnLeft, Long targetHeading, BotInstruction nextState, WiredHardware robot, BotMotion botMotion) {
         super(stateName, nextState, robot, botMotion);
@@ -16,7 +16,8 @@ public class Turn extends BotInstruction {
 
     @Override
     public void start() {
-        botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]);
+        // commented out since we need to always have this be a reference value from the start of the program
+        //botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]);
         this.stopRobot();
     }
 
@@ -46,6 +47,7 @@ public class Turn extends BotInstruction {
 
     @Override
     public BotInstruction transition() {
+        while (Utils.didRoboStoppedtMoving(this.botMotion, this.robot) == false);
         return nextState;
     }
 
