@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
@@ -20,10 +21,10 @@ public final class Utils {
             if (botMotion.maxDrivePowerAchieved == false)// startup power
             {
 
-                AdjusteddrivePower = 0.065 + (Math.pow(botMotion.X_Position_Inches + 2, 3)) / 5000.0;
+                AdjusteddrivePower = 0.045 + (Math.pow(botMotion.X_Position_Inches + 2, 2.5)) / 8000.0;
             } else// slow down power as we approach target position
             {
-                AdjusteddrivePower = 0.035 + (Math.pow(Distancedifference + 1, 2)) / 5000.0;
+                AdjusteddrivePower = 0.03 + (Math.pow(Distancedifference + 1, 2)) / 8000.0;
             }
 
             if (AdjusteddrivePower > botMotion.maxdrivePower) {
@@ -56,7 +57,8 @@ public final class Utils {
                     botMotion.headingError = (((180 + (180.0 + botMotion.normalizedHeading)) - (botMotion.targetHeading)) / (botMotion.targetHeading + 200)) * 2.0;
                 }
             } else {*/
-                botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
+            botMotion.headingError = ((ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading)) / (botMotion.targetHeading+70.0)); // adjust for heading correction
+            //botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
 
 
             if (botMotion.headingError > 0.0)// we are skewed to the right. apply more power to that side.
@@ -137,7 +139,8 @@ public final class Utils {
                     adjustedTurningSpeed = 0.06 + (((180 + botMotion.normalizedHeading) * 1.3) / 1000.0);
                 }
             }*/
-            adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
+            //adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
+            adjustedTurningSpeed = 0.045 + ((angularDifference) / 800.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {
@@ -266,6 +269,8 @@ public final class Utils {
     public static double ComputeAngularDifference(double AngleReadingOne, double AngleReadingTwo)
     {
         double AngleDifference;
+
+        //convert back to standard angle notations (0 to 180, -1 to -179)
         if (AngleReadingOne > 180)
         {
             AngleReadingOne -=360;
@@ -276,7 +281,11 @@ public final class Utils {
             AngleReadingTwo -=360;
         }
 
-        AngleDifference = AngleReadingOne-AngleReadingTwo;
+        //compensate for wrap around
+        AngleDifference =  AngleReadingOne - AngleReadingTwo;
+        while (AngleDifference < -180) AngleDifference += 360;
+        while (AngleDifference > 180) AngleDifference -= 360;
+
         return AngleDifference;
     }
 
@@ -294,7 +303,7 @@ public final class Utils {
 
     public static boolean IsWhiteLineThere(WiredHardware robot)
     {
-        if (robot.odsSensorForLineDetect.getRawLightDetected() > 1.7) // NEED TO FIND OUT WHAT THIS VALUE IS
+        if (robot.odsSensorForLineDetect.getRawLightDetected() > 0.012) // NEED TO FIND OUT WHAT THIS VALUE IS
         {
             return true;
         }
@@ -317,5 +326,7 @@ public final class Utils {
         }
     }
 
-}
 
+
+
+}

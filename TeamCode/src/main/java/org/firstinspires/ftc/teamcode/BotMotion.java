@@ -30,6 +30,9 @@ public class BotMotion {
     public double xAccelerationLast = 0.0;
     public double xVelocity = 0.0;
 
+    public long currentTimeBallControl=0;
+    public int currentTicksLAndRMotors[] = {0,0};
+
     /**
      * If the is true we are going to change the ball motor from one state to another.
      */

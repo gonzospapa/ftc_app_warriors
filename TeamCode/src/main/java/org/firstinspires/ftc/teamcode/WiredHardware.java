@@ -14,6 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.Quaternion;
 import org.firstinspires.ftc.teamcode.parts.Imu;
 import com.qualcomm.hardware.adafruit.BNO055IMU;
+import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.teamcode.parts.RgbSensor;
 
 /**
@@ -335,4 +337,85 @@ public class  WiredHardware
         return new double[]{yaw, pitch, roll};
     }
 
+
+    public double calcElapsedTime(BotMotion botMotion) {
+        double elapsedTime = 0;
+        long now = System.currentTimeMillis();
+        elapsedTime = (now - botMotion.currentTimeBallControl) / 1000.0;
+        botMotion.currentTimeBallControl = now;
+        return elapsedTime;
+    }
+
+    public boolean isTime(BotMotion botMotion) {
+        double elapsedTime = 0;
+        long now = System.currentTimeMillis();
+        elapsedTime = (now - botMotion.currentTimeBallControl);
+        return elapsedTime >=500;
+    }
+
+    public void ControlCrossBowMotorsSpeed(boolean ramp_up, WiredHardware robot, BotMotion botMotion)
+    {
+        double PowerIncrease = 0.05;
+        double TargetSpeed = 3000;
+        double AllowedError = 50;
+        if (isTime(botMotion)) {
+            double elapsedTimeSec = calcElapsedTime(botMotion);
+            int currentPos[] = {robot.leftBallmotor.getCurrentPosition(),robot.rightBallmotor.getCurrentPosition()};
+            int elapsedTicks[] = {currentPos[0] - botMotion.currentTicksLAndRMotors[0],currentPos[1] - botMotion.currentTicksLAndRMotors[1]};
+
+
+            botMotion.currentTicksLAndRMotors[0] = currentPos[0];
+            botMotion.currentTicksLAndRMotors[1] = currentPos[1];
+
+            double ticksPerSec[] = {0,0};
+            if (elapsedTicks[0] != 0 && elapsedTimeSec != 0) {
+                ticksPerSec[0] = elapsedTicks[0] / elapsedTimeSec;
+                ticksPerSec[1] = elapsedTicks[1] / elapsedTimeSec;
+            }
+
+
+
+            if (ramp_up)
+            {
+                if (robot.leftBallmotor.getPower() < 0.6) {
+                    robot.leftBallmotor.setPower(Range.clip(robot.leftBallmotor.getPower()+PowerIncrease,0,1));
+                    robot.rightBallmotor.setPower(Range.clip(robot.rightBallmotor.getPower()+PowerIncrease,0,1));
+                }
+                else
+                {
+                    if (ticksPerSec[0] < (TargetSpeed-AllowedError))
+                    {
+                        robot.leftBallmotor.setPower(robot.leftBallmotor.getPower()+(PowerIncrease/10.0));
+                    }
+
+                    if (ticksPerSec[0] > (TargetSpeed+AllowedError))
+                    {
+                        robot.leftBallmotor.setPower(robot.leftBallmotor.getPower()-(PowerIncrease/10.0));
+                    }
+
+                    if (ticksPerSec[1] < (TargetSpeed-AllowedError))
+                    {
+                        robot.rightBallmotor.setPower(robot.rightBallmotor.getPower()+PowerIncrease/10.0);
+                    }
+                    if (ticksPerSec[1] > (TargetSpeed+AllowedError))
+                    {
+                        robot.rightBallmotor.setPower(robot.rightBallmotor.getPower()-(PowerIncrease/10.0));
+                    }
+
+                }
+
+            }
+            else {
+                if (robot.leftBallmotor.getPower() > 0.0)
+                {
+                    robot.leftBallmotor.setPower(Range.clip(robot.leftBallmotor.getPower()-PowerIncrease,0.0,1));
+                    robot.rightBallmotor.setPower(Range.clip(robot.rightBallmotor.getPower()-PowerIncrease,0.0,1));
+                }
+
+            }
+
+
+        }
+
+    }
 }
