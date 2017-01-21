@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
@@ -20,10 +21,10 @@ public final class Utils {
             if (botMotion.maxDrivePowerAchieved == false)// startup power
             {
 
-                AdjusteddrivePower = 0.065 + (Math.pow(botMotion.X_Position_Inches + 2, 3)) / 5000.0;
+                AdjusteddrivePower = 0.02 + (Math.pow(botMotion.X_Position_Inches + 1, 2)) / 10000.0;
             } else// slow down power as we approach target position
             {
-                AdjusteddrivePower = 0.035 + (Math.pow(Distancedifference + 1, 2)) / 5000.0;
+                AdjusteddrivePower = 0.02 + (Math.pow(Distancedifference + 1, 2)) / 10000.0;
             }
 
             if (AdjusteddrivePower > botMotion.maxdrivePower) {
@@ -34,7 +35,7 @@ public final class Utils {
 
             if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.xVelocity) < 0.025)) {
                 if ((botMotion.ms - botMotion.timeElapsed) > 2000) {
-                    AdjusteddrivePower = 0.3;
+                    AdjusteddrivePower = 0.2;
                 }
             }
 
@@ -45,18 +46,8 @@ public final class Utils {
             if (Math.abs(botMotion.xVelocity) >= 0.015)
                 botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
 
-            //HeadingShiftValue shifts the number calculations away from zero to avoid division by zero.
-/*            if (botMotion.targetHeading == 180.0) {
-                if (botMotion.normalizedHeading >= 0.0)// if heading is around 180 175
-                {
-                    botMotion.normalizedHeading = 180 + (180.0 - botMotion.normalizedHeading);
-                    botMotion.headingError = ((botMotion.targetHeading - botMotion.normalizedHeading) / (botMotion.targetHeading + 200)) * 2.0;
-                } else// normalizedHeading is less than zero
-                {
-                    botMotion.headingError = (((180 + (180.0 + botMotion.normalizedHeading)) - (botMotion.targetHeading)) / (botMotion.targetHeading + 200)) * 2.0;
-                }
-            } else {*/
-                botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
+            botMotion.headingError = ((ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading)) / (botMotion.targetHeading+70.0)); // adjust for heading correction
+            //botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
 
 
             if (botMotion.headingError > 0.0)// we are skewed to the right. apply more power to that side.
@@ -80,7 +71,9 @@ public final class Utils {
 
     }
 
-    public static Boolean didRoboStoppedtMoving(BotMotion botMotion) {
+    public static Boolean didRoboStoppedtMoving(BotMotion botMotion, WiredHardware robot) {
+        botMotion.xAcceleration= robot.getAcclerations()[0]; //
+        Utils.IntegrateAcceleration(botMotion);// updates integration to get velocity
         if ((Math.abs(botMotion.xVelocity) < 0.02) && (Math.abs(botMotion.xVelocity) < 0.02)) {
             botMotion.maxDrivePowerAchieved = false;
             botMotion.timeElapsed = 0;
@@ -128,16 +121,9 @@ public final class Utils {
         {
             adjustedTurningSpeed = botMotion.turningSpeed;
         } else {
-/*            if (botMotion.targetHeading == 180.0) {
-                if (botMotion.normalizedHeading >= 0.0)//
-                {
-                    adjustedTurningSpeed = 0.06 + ((angularDifference * 1.3) / 1000.0);
-                } else// normalizedHeading is less than zero i e -179
-                {
-                    adjustedTurningSpeed = 0.06 + (((180 + botMotion.normalizedHeading) * 1.3) / 1000.0);
-                }
-            }*/
-            adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
+
+            //adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
+            adjustedTurningSpeed = 0.035 + ((angularDifference) / 1000.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {
@@ -266,6 +252,8 @@ public final class Utils {
     public static double ComputeAngularDifference(double AngleReadingOne, double AngleReadingTwo)
     {
         double AngleDifference;
+
+        //convert back to standard angle notations (0 to 180, -1 to -179)
         if (AngleReadingOne > 180)
         {
             AngleReadingOne -=360;
@@ -276,7 +264,11 @@ public final class Utils {
             AngleReadingTwo -=360;
         }
 
-        AngleDifference = AngleReadingOne-AngleReadingTwo;
+        //compensate for wrap around
+        AngleDifference =  AngleReadingOne - AngleReadingTwo;
+        while (AngleDifference < -180) AngleDifference += 360;
+        while (AngleDifference > 180) AngleDifference -= 360;
+
         return AngleDifference;
     }
 
@@ -294,7 +286,7 @@ public final class Utils {
 
     public static boolean IsWhiteLineThere(WiredHardware robot)
     {
-        if (robot.odsSensorForLineDetect.getRawLightDetected() > 1.7) // NEED TO FIND OUT WHAT THIS VALUE IS
+        if (robot.odsSensorForLineDetect.getRawLightDetected() > 0.012) // NEED TO FIND OUT WHAT THIS VALUE IS
         {
             return true;
         }
@@ -317,5 +309,7 @@ public final class Utils {
         }
     }
 
-}
 
+
+
+}

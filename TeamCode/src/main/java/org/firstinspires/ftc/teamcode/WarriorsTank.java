@@ -90,13 +90,15 @@ public class WarriorsTank extends OpMode {
             }
 
             if (gamepad2.a) {
-                botMotion.isBallMotorOn = true;
-                botMotion.shouldBallMotor = true;
-           } else if (gamepad2.b) {
-                botMotion.isBallMotorOn = false;
-                botMotion.shouldBallMotor = true;
-           } else {
-                botMotion.shouldBallMotor = false;
+                robot.ControlCrossBowMotorsSpeed(true, this.robot, this.botMotion);
+                //botMotion.isBallMotorOn = true;
+                //botMotion.shouldBallMotor = true;
+           } //else if (gamepad2.b) {
+               // botMotion.isBallMotorOn = false;
+                //botMotion.shouldBallMotor = true;
+            else {
+                robot.ControlCrossBowMotorsSpeed(false, this.robot, this.botMotion);
+                //botMotion.shouldBallMotor = false;
             }
 
             if (gamepad2.x) {
