@@ -43,7 +43,7 @@ public class Turn extends BotInstruction {
          } else {
             if (this.targetHeading < 180 && botMotion.normalizedHeading > 180) {
                 return false;
-            } else if (this.targetHeading > botMotion.normalizedHeading) {
+            } else if (this.targetHeading < botMotion.normalizedHeading) {
                 return true;
             } else {
                 return false;
