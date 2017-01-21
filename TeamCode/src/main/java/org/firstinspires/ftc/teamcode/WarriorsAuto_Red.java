@@ -15,9 +15,9 @@ import org.firstinspires.ftc.teamcode.instructions.Turn;
 /**
  * Created by Mike Murphy on 11/18/2016.
  */
-@Autonomous(name = "WarriorsBot_2: LinearOpMode", group = "WarriorsAuto")
+@Autonomous(name = "WarriorsBot_2: LinearOpMode_red", group = "WarriorsAuto")
 //@Disabled                     // Comment this out to add to the opmode list
-public class WarriorsAuto_2 extends LinearOpMode {
+public class WarriorsAuto_Red extends LinearOpMode {
 
 
 
@@ -90,7 +90,6 @@ public class WarriorsAuto_2 extends LinearOpMode {
 
 
             telemetry.addData("State:", currentInstruction.getName());
-
 
             if (currentInstruction.isComplete()) {
                 currentInstruction = currentInstruction.transition();
@@ -181,22 +180,31 @@ public class WarriorsAuto_2 extends LinearOpMode {
        // Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 
         // Move to wall
-        //Stop stop = new Stop(robot);
+        Stop stop = new Stop(robot);
         //MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, stop, robot, botMotion);
         //Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
         //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 
         // Turn and Move
-        Stop stop = new Stop(robot);
-        Turn turn1 = new Turn("Turn1", false, 90L, stop, robot, botMotion);
-        Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+        //Stop stop = new Stop(robot);
+        //Turn turn1 = new Turn("Turn1", false, 90L, stop, robot, botMotion);
+        //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
+
+        //Move Move1 = new Move ("Move2",true, 71L, stop, robot, botMotion);
+        //Turn turn2 = new Turn ("turn3", false, 180L, Move1, robot, botMotion);
+        //PushButton Button2 = new PushButton ("Button3", turn2, robot, botMotion, false);
+        //MoveLineDetect WhiteLine2 = new MoveLineDetect ("WhiteLine3",true, 47L, Button2, robot, botMotion);
+        //PushButton Button = new PushButton ("Button1", WhiteLine2, robot, botMotion, false);
+        MoveLineDetect WhiteLine = new MoveLineDetect("WhiteLine1",true, 12L, stop, robot, botMotion);
+        Turn turn1 = new Turn("turn1", false, 35L, WhiteLine, robot, botMotion);
+        MoveToWall moveToWall = new MoveToWall("MoveToWall",true, 71L, turn1, robot, botMotion);
 
 
         telemetry.clear();
         telemetry.addData("Status", "2");
         telemetry.update();
 
-        start = new Start(move1);
+        start = new Start(moveToWall);
 
         return botMotion;
     }

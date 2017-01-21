@@ -32,9 +32,21 @@ public class Turn extends BotInstruction {
     @Override
     public boolean isComplete() {
         if (turnLeft) {
-            return botMotion.normalizedHeading <= -this.targetHeading;
-        } else {
-            return botMotion.normalizedHeading >= this.targetHeading;
+            if (this.targetHeading > 180 && botMotion.normalizedHeading < 180) {
+                return false;
+            } else if (this.targetHeading > botMotion.normalizedHeading) {
+                return true;
+            } else {
+                return false;
+            }
+         } else {
+            if (this.targetHeading < 180 && botMotion.normalizedHeading > 180) {
+                return false;
+            } else if (this.targetHeading > botMotion.normalizedHeading) {
+                return true;
+            } else {
+                return false;
+            }
         }
 
     }
