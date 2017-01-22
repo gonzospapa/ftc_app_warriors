@@ -23,6 +23,7 @@ public class MoveToWall extends BotInstruction {
     @Override
     public void start() {
         this.stopRobot();
+        //targetDistance = targetDistance + (long) botMotion.X_Position_Inches;
     }
 
     @Override

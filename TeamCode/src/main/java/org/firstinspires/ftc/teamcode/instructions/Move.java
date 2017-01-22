@@ -23,7 +23,9 @@ public class Move extends BotInstruction {
 
     @Override
     public void start() {
+        //Handle the fact the the encoders
         this.stopRobot();
+        //targetDistance = targetDistance + (long) botMotion.X_Position_Inches;
     }
 
     @Override
