@@ -42,7 +42,8 @@ public class MoveLineDetect extends BotInstruction {
 
     @Override
     public BotInstruction transition() {
-        while (Utils.didRoboStoppedtMoving(this.botMotion, this.robot) == false); return this.nextState;
+        Utils.RobotStoppedtMoving(this.botMotion, this.robot);
+        return this.nextState;
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Turn extends BotInstruction {
     public Turn(String stateName, boolean turnLeft, Long targetHeading, BotInstruction nextState, WiredHardware robot, BotMotion botMotion) {
         super(stateName, nextState, robot, botMotion);
         this.turnLeft = turnLeft;
+
         this.targetHeading = targetHeading;
     }
 
@@ -59,7 +60,15 @@ public class Turn extends BotInstruction {
 
     @Override
     public BotInstruction transition() {
-        while (Utils.didRoboStoppedtMoving(this.botMotion, this.robot) == false);
+        botMotion.targetHeading = this.targetHeading;
+        //botMotion.maxDrivePowerAchieved = false;
+        botMotion.timeElapsedMotion = 0;
+
+        try {
+            robot.resetEncoders();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return nextState;
     }
 

@@ -61,6 +61,8 @@ public class PushButton extends BotInstruction {
 
     @Override
     public BotInstruction transition() {
+        robot.buttonPusher.setDirection(Servo.Direction.REVERSE);
+        robot.buttonPusher.setPosition(.35);
         return nextState;
     }
 

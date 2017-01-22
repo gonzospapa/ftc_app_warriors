@@ -273,8 +273,8 @@ public class  WiredHardware
         this.rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.rightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.leftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //this.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+       // this.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void stopAllMovement() {

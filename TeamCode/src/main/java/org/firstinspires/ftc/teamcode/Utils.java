@@ -21,10 +21,10 @@ public final class Utils {
             if (botMotion.maxDrivePowerAchieved == false)// startup power
             {
 
-                AdjusteddrivePower = 0.02 + (Math.pow(botMotion.X_Position_Inches + 1, 2)) / 10000.0;
+                AdjusteddrivePower = 0.05 + (Math.pow(botMotion.X_Position_Inches + 2, 3)) / 1000.0;
             } else// slow down power as we approach target position
             {
-                AdjusteddrivePower = 0.02 + (Math.pow(Distancedifference + 1, 2)) / 10000.0;
+                AdjusteddrivePower = 0.05 + (Math.pow(Distancedifference, 1.5))/ 1000.0;
             }
 
             if (AdjusteddrivePower > botMotion.maxdrivePower) {
@@ -33,20 +33,20 @@ public final class Utils {
             }
 
 
-            if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.xVelocity) < 0.025)) {
-                if ((botMotion.ms - botMotion.timeElapsed) > 2000) {
-                    AdjusteddrivePower = 0.2;
+            if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+                if ((botMotion.ms - botMotion.timeElapsedMotion) > 2000) {
+                    AdjusteddrivePower = 0.15;
                 }
             }
 
             //timeElapsed was reset. Count time from no movement
-            if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
-                botMotion.timeElapsed = botMotion.ms;// copy global counter
+            if ((botMotion.timeElapsedMotion == 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+                botMotion.timeElapsedMotion = botMotion.ms;// copy global counter
             }
-            if (Math.abs(botMotion.xVelocity) >= 0.015)
-                botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
+            if (Math.abs(botMotion.xVelocity) >= 0.005)
+                botMotion.timeElapsedMotion = botMotion.ms;// reset if movement occurs
 
-            botMotion.headingError = ((ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading)) / (botMotion.targetHeading+70.0)); // adjust for heading correction
+            botMotion.headingError = ((ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading)) / (botMotion.targetHeading+30.0)); // adjust for heading correction
             //botMotion.headingError = ((botMotion.normalizedHeading - botMotion.targetHeading) / (botMotion.targetHeading + 200)) * 5.0;
 
 
@@ -71,14 +71,15 @@ public final class Utils {
 
     }
 
-    public static Boolean didRoboStoppedtMoving(BotMotion botMotion, WiredHardware robot) {
-        botMotion.xAcceleration= robot.getAcclerations()[0]; //
-        Utils.IntegrateAcceleration(botMotion);// updates integration to get velocity
-        if ((Math.abs(botMotion.xVelocity) < 0.02) && (Math.abs(botMotion.xVelocity) < 0.02)) {
-            botMotion.maxDrivePowerAchieved = false;
-            botMotion.timeElapsed = 0;
-            return true;
-        } else return false;
+    public static void RobotStoppedtMoving(BotMotion botMotion, WiredHardware robot) {
+
+        try {
+            robot.resetEncoders();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        botMotion.maxDrivePowerAchieved = false;
+        botMotion.timeElapsedMotion = 0;
     }
 
     public static void turnLeft(BotMotion botMotion, WiredHardware robot)// inverted power application to compensate for gearing.
@@ -123,7 +124,7 @@ public final class Utils {
         } else {
 
             //adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
-            adjustedTurningSpeed = 0.035 + ((angularDifference) / 1000.0);
+            adjustedTurningSpeed = 0.055 + ((angularDifference) / 1000.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {
@@ -131,19 +132,19 @@ public final class Utils {
             botMotion.maxDrivePowerAchieved = true;
         }
 
-        if ((botMotion.timeElapsed != 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
-            if ((botMotion.ms - botMotion.timeElapsed) > 1000) {
+        if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+            if ((botMotion.ms - botMotion.timeElapsedMotion) > 2000) {
                 adjustedTurningSpeed = botMotion.turningSpeed;
             }
         }
 
-        //timeElapsed was reset. Count time from no movement
-        if ((botMotion.timeElapsed == 0) && (Math.abs(botMotion.xVelocity) < 0.02)) {
-            botMotion.timeElapsed = botMotion.ms;// copy global counter
+        //timeElapsedMotion was reset. Count time from no movement
+        if ((botMotion.timeElapsedMotion == 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+            botMotion.timeElapsedMotion = botMotion.ms;// copy global counter
         }
 
-        if (Math.abs(botMotion.xVelocity) > 0.02)
-            botMotion.timeElapsed = botMotion.ms;// reset if movement occurs
+        if (Math.abs(botMotion.xVelocity) > 0.005)
+            botMotion.timeElapsedMotion = botMotion.ms;// reset if movement occurs
 
 
         botMotion.turningPowercopy = adjustedTurningSpeed;
@@ -217,7 +218,7 @@ public final class Utils {
 
     public static void IntegrateAcceleration(BotMotion botMotion) {
         double elapsedTime = 0;
-        double duration = (botMotion.timeElapsed) * 1e-6;
+        double duration = (botMotion.timeElapsed);
 
         if (Math.abs(botMotion.xAcceleration) > 0.01)
         {

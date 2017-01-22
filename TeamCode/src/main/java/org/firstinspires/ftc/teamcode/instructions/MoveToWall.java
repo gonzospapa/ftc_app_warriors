@@ -41,6 +41,9 @@ public class MoveToWall extends BotInstruction {
 
     @Override
     public BotInstruction transition() {
+
+        Utils.RobotStoppedtMoving(this.botMotion, this.robot);
+
         return this.nextState;
     }
 
