@@ -114,7 +114,7 @@ public class WarriorsAuto_Red extends LinearOpMode {
         BotMotion botMotion = robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Warrior V1");
+        telemetry.addData("Say", "Hello Warrior V2");
         updateTelemetry(telemetry);
 
         //

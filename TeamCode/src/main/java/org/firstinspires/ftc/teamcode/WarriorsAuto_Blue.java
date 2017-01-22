@@ -115,7 +115,7 @@ public class WarriorsAuto_Blue extends LinearOpMode {
         BotMotion botMotion = robot.init(hardwareMap);
 
         // Send telemetry message to signify robot waiting;
-        telemetry.addData("Say", "Hello Warrior V1");
+        telemetry.addData("Say", "Hello Warrior V2");
         updateTelemetry(telemetry);
 
         //
@@ -131,7 +131,7 @@ public class WarriorsAuto_Blue extends LinearOpMode {
         waitForStart();
         telemetry.clear();
 
-        botMotion.targetHeading = 10.0;
+        //botMotion.targetHeading = 10.0;
         botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]); // Yaw is first index
 
 
