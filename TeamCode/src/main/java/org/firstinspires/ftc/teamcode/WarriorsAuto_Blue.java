@@ -181,13 +181,13 @@ public class WarriorsAuto_Blue extends LinearOpMode {
        // Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 
         // Move to wall
-        //Stop stop = new Stop(robot);
+         Stop stop = new Stop(robot);
         //MoveToWall moeToWall = new MoveToWall("Move1",true, 30L, stop, robot, botMotion);
         //Turn turn1 = new Turn("Turn1", false, 90L, moeToWall, robot, botMotion);
         //Move move1 = new Move("Move1",true,30L,turn1, robot, botMotion);
 
         // Turn and Move
-        Stop stop = new Stop(robot);
+        //Stop stop = new Stop(robot);
         //Turn turn1 = new Turn("Turn1", false, 90L, stop, robot, botMotion);
         Move move3 = new Move("Move1",true,30L,stop, robot, botMotion);
 
@@ -196,11 +196,11 @@ public class WarriorsAuto_Blue extends LinearOpMode {
         PushButton Button2 = new PushButton ("Button3", move3, robot, botMotion, false);
         MoveLineDetect WhiteLine2 = new MoveLineDetect ("WhiteLine3",false, 47L, Button2, robot, botMotion);
         PushButton Button = new PushButton ("Button1", WhiteLine2, robot, botMotion, false);
-        MoveLineDetect WhiteLine = new MoveLineDetect("WhiteLine1",false, 12L, Button, robot, botMotion);
+        MoveLineDetect WhiteLine = new MoveLineDetect("WhiteLine1",false, 12L, stop, robot, botMotion);
         //Turn turn1 = new Turn("turn1", true, 220L, WhiteLine, robot, botMotion);
         //MoveToWall moveToWall = new MoveToWall("MoveToWall",true, 71L, turn1, robot, botMotion);
-        Turn turn3 = new Turn("turn3", false, 180L, WhiteLine, robot, botMotion);
-        MoveToWall moveToWall = new MoveToWall("MoveToWall",true, 20L, turn3, robot, botMotion);
+        Turn turn3 = new Turn("turn3", false, 165L, WhiteLine, robot, botMotion);
+        MoveToWall moveToWall = new MoveToWall("MoveToWall",true, 63L, turn3, robot, botMotion);
         Turn turn2 = new Turn("turn2", false, 90L, moveToWall, robot, botMotion);
 
         Move move2 = new Move("Move1",true,20L,turn2, robot, botMotion);
@@ -208,7 +208,7 @@ public class WarriorsAuto_Blue extends LinearOpMode {
         // travel the triangle and then turn right to hit the pushbuttons.
         //MoveToWall moveToWall = new MoveToWall("MoveToWall",turn2, 50L, stop, robot, botMotion);
         Turn turn1 = new Turn("turn1", false, 45L, move2, robot, botMotion);
-        Move move1 = new Move("Move1",true,50L,turn1, robot, botMotion);
+        Move move1 = new Move("Move1",true,33L,turn1, robot, botMotion);
 
 
 

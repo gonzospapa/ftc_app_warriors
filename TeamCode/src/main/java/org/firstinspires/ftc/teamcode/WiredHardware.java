@@ -208,6 +208,8 @@ public class  WiredHardware
         Utils.delay(100);
         botMotion.newElevatorSpeed = speed;
         this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
+        //botMotion.newSweeperSpeed = speed;
+        //this.sweeperMotor.setPower(botMotion.newSweeperSpeed);
     }
     //resets the sweeper speed with a slight delay.
     public void setUpSweeperMotorSpeed(double speed, BotMotion botMotion) {

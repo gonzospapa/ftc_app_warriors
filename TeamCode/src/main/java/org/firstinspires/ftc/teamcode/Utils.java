@@ -24,7 +24,7 @@ public final class Utils {
                 AdjusteddrivePower = 0.05 + (Math.pow(botMotion.X_Position_Inches + 2, 3)) / 1000.0;
             } else// slow down power as we approach target position
             {
-                AdjusteddrivePower = 0.05 + (Math.pow(Distancedifference, 1.5))/ 1000.0;
+                AdjusteddrivePower = 0.05 + (Math.pow(Distancedifference, 3))/ 1000.0;
             }
 
             if (AdjusteddrivePower > botMotion.maxdrivePower) {
@@ -33,17 +33,17 @@ public final class Utils {
             }
 
 
-            if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+            if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.01)) {
                 if ((botMotion.ms - botMotion.timeElapsedMotion) > 2000) {
                     AdjusteddrivePower = 0.15;
                 }
             }
 
             //timeElapsed was reset. Count time from no movement
-            if ((botMotion.timeElapsedMotion == 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+            if ((botMotion.timeElapsedMotion == 0) && (Math.abs(botMotion.xVelocity) < botMotion.VelocityThreshhold)) {
                 botMotion.timeElapsedMotion = botMotion.ms;// copy global counter
             }
-            if (Math.abs(botMotion.xVelocity) >= 0.005)
+            if (Math.abs(botMotion.xVelocity) >= botMotion.VelocityThreshhold)
                 botMotion.timeElapsedMotion = botMotion.ms;// reset if movement occurs
 
             botMotion.headingError = ((ComputeAngularDifference(botMotion.normalizedHeading,botMotion.targetHeading)) / (botMotion.targetHeading+30.0)); // adjust for heading correction
@@ -124,7 +124,7 @@ public final class Utils {
         } else {
 
             //adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
-            adjustedTurningSpeed = 0.055 + ((angularDifference) / 1000.0);
+            adjustedTurningSpeed = 0.06 + ((angularDifference) / 100.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {
@@ -132,18 +132,18 @@ public final class Utils {
             botMotion.maxDrivePowerAchieved = true;
         }
 
-        if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+        if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < botMotion.VelocityThreshhold)) {
             if ((botMotion.ms - botMotion.timeElapsedMotion) > 2000) {
                 adjustedTurningSpeed = botMotion.turningSpeed;
             }
         }
 
         //timeElapsedMotion was reset. Count time from no movement
-        if ((botMotion.timeElapsedMotion == 0) && (Math.abs(botMotion.xVelocity) < 0.005)) {
+        if ((botMotion.timeElapsedMotion == 0) && (Math.abs(botMotion.xVelocity) < botMotion.VelocityThreshhold )) {
             botMotion.timeElapsedMotion = botMotion.ms;// copy global counter
         }
 
-        if (Math.abs(botMotion.xVelocity) > 0.005)
+        if (Math.abs(botMotion.xVelocity) > botMotion.VelocityThreshhold)
             botMotion.timeElapsedMotion = botMotion.ms;// reset if movement occurs
 
 
@@ -220,7 +220,7 @@ public final class Utils {
         double elapsedTime = 0;
         double duration = (botMotion.timeElapsed);
 
-        if (Math.abs(botMotion.xAcceleration) > 0.01)
+        if (Math.abs(botMotion.xAcceleration) > 0.0)
         {
             botMotion.xVelocity = (botMotion.xAcceleration+botMotion.xAccelerationLast)*0.5*duration;
 
@@ -275,7 +275,7 @@ public final class Utils {
 
     public static boolean AreWeInFrontOfWall(WiredHardware robot)
     {
-        if (robot.odsSensor.getRawLightDetected() > 1.7)
+        if (robot.odsSensor.getRawLightDetected() > 1.5)
         {
             return true;
         }

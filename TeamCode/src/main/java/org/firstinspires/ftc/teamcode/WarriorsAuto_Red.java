@@ -200,14 +200,14 @@ public class WarriorsAuto_Red extends LinearOpMode {
         MoveLineDetect WhiteLine2 = new MoveLineDetect ("WhiteLine3",true, 47L, Button2, robot, botMotion);
         PushButton Button = new PushButton ("Button1", WhiteLine2, robot, botMotion, false);
         MoveLineDetect WhiteLine = new MoveLineDetect("WhiteLine1",true, 12L, Button, robot, botMotion);
-        Turn turn2 = new Turn("turn2", false, 0L, WhiteLine, robot, botMotion);
+        Turn turn2 = new Turn("turn2", false, 345L, WhiteLine, robot, botMotion);
         MoveToWall moveToWall = new MoveToWall("MoveToWall",true, 50L, turn2, robot, botMotion);
 
         //To compensate for not being able to see the wall, first
         // travel the triangle and then turn right to hit the pushbuttons.
         //MoveToWall moveToWall = new MoveToWall("MoveToWall",turn2, 50L, stop, robot, botMotion);
-        Turn turn1 = new Turn("turn1", true, 270L, moveToWall, robot, botMotion);
-        Move move1 = new Move("Move1",true,50L,turn1, robot, botMotion);
+        Turn turn1 = new Turn("turn1", true, 290L, moveToWall, robot, botMotion);
+        Move move1 = new Move("Move1",true,34L,turn1, robot, botMotion);
 
 
         telemetry.clear();

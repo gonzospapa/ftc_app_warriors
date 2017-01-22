@@ -22,7 +22,7 @@ public class BotMotion {
     public double newRightMotorPower;
     public double newLeftMotorPower;
     public double newTurningSpeed;
-    public double turningSpeed = 0.1;
+    public double turningSpeed = 0.15;
     public double turningPowercopy = 0.0;
 
     public double YawAngleOffset = 0.0;
@@ -33,6 +33,8 @@ public class BotMotion {
     public long currentTimeBallControl=0;
     public int currentTicksLAndRMotors[] = {0,0};
     public double timeElapsedMotion;
+
+    public double VelocityThreshhold = 0.025;
 
     /**
      * If the is true we are going to change the ball motor from one state to another.
