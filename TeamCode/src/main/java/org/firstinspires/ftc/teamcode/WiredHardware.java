@@ -358,7 +358,7 @@ public class  WiredHardware
     public void ControlCrossBowMotorsSpeed(boolean ramp_up, WiredHardware robot, BotMotion botMotion)
     {
         double PowerIncrease = 0.05;
-        double TargetSpeed = 3000;
+        double TargetSpeed = 5000;
         double AllowedError = 50;
         if (isTime(botMotion)) {
             double elapsedTimeSec = calcElapsedTime(botMotion);

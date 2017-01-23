@@ -124,7 +124,7 @@ public final class Utils {
         } else {
 
             //adjustedTurningSpeed = 0.06 + ((angularDifference * 1.1) / 1000.0);
-            adjustedTurningSpeed = 0.06 + ((angularDifference) / 100.0);
+            adjustedTurningSpeed = 0.08 + ((angularDifference) / 50.0);
         }
 
         if (adjustedTurningSpeed >= botMotion.turningSpeed) {
