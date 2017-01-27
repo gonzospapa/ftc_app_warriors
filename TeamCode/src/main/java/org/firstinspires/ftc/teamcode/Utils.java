@@ -33,9 +33,9 @@ public final class Utils {
             }
 
 
-            if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.01)) {
+            if ((botMotion.timeElapsedMotion != 0) && (Math.abs(botMotion.xVelocity) < 0.05)) {
                 if ((botMotion.ms - botMotion.timeElapsedMotion) > 2000) {
-                    AdjusteddrivePower = 0.15;
+                    AdjusteddrivePower = 0.25;
                 }
             }
 
