@@ -188,8 +188,8 @@ public class  WiredHardware
     public void startupElevatorMotor(BotMotion botMotion) {
         if (botMotion.isElevatorOn && botMotion.newElevatorSpeed == 0) {
             setUpElevatorMotorSpeed(0.06  , botMotion);
-            setUpElevatorMotorSpeed(0.125, botMotion);
-            //  setUpSweeperMotorSpeed(0.13, botMotion);
+            setUpElevatorMotorSpeed(0.08, botMotion);
+            setUpSweeperMotorSpeed(0.08, botMotion);
             //  setUpSweeperMotorSpeed(0.25, botMotion);
         } else if (botMotion.isElevatorOn == false) {
             setUpElevatorMotorSpeed(0.0, botMotion);
@@ -358,7 +358,7 @@ public class  WiredHardware
     public void ControlCrossBowMotorsSpeed(boolean ramp_up, WiredHardware robot, BotMotion botMotion)
     {
         double PowerIncrease = 0.05;
-        double TargetSpeed = 5000;
+        double TargetSpeed = 8000;
         double AllowedError = 50;
         if (isTime(botMotion)) {
             double elapsedTimeSec = calcElapsedTime(botMotion);
@@ -379,7 +379,7 @@ public class  WiredHardware
 
             if (ramp_up)
             {
-                if (robot.leftBallmotor.getPower() < 0.6) {
+                if (robot.leftBallmotor.getPower() < 0.8) {
                     robot.leftBallmotor.setPower(Range.clip(robot.leftBallmotor.getPower()+PowerIncrease,0,1));
                     robot.rightBallmotor.setPower(Range.clip(robot.rightBallmotor.getPower()+PowerIncrease,0,1));
                 }

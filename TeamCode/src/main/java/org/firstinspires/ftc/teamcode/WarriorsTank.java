@@ -61,8 +61,8 @@ public class WarriorsTank extends OpMode {
 
             robot.setAllMotors(botMotion);
 
-            robot.sweeperMotor.setPower( -gamepad2.left_stick_y);
-            robot.elevatorMotor.setPower(-gamepad2.right_stick_y);
+            robot.sweeperMotor.setPower( -gamepad2.right_stick_y*0.3);
+            robot.elevatorMotor.setPower(-gamepad2.left_stick_y*0.2);
 
              //if (botMotion.newLeftMotorPower > .75) {
              //   botMotion.newLeftMotorPower = .75;
