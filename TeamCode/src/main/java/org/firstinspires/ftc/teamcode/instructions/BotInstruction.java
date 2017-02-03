@@ -26,13 +26,9 @@ public abstract class BotInstruction {
         botMotion.angles = this.robot.imu.getAngularOrientation();
         botMotion.normalizedHeading = Utils.normalizePitchReading(Utils.normalizeDegrees(botMotion.angles.angleUnit.fromDegrees(botMotion.angles.firstAngle)), botMotion.initialPitchValue);
         botMotion.X_Position_Inches = Utils.convertEncoderDatToInches((robot.leftBackMotor.getCurrentPosition() + robot.rightBackMotor.getCurrentPosition()) / 2);
-        //botMotion.Side_ods_Distance = Utils.get_ods_side_value_in_inches();
-        //botMotion.front_ods_Distance = Utils.get_ods_value_in_inches();
     }
 
     protected void stopRobot() {
-        botMotion.newLeftMotorPower = 0.0;
-        botMotion.newRightMotorPower = 0.0;
         robot.setAllMotors(botMotion);
 
         try {

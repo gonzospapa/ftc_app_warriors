@@ -23,8 +23,7 @@ public class MoveLineDetect extends BotInstruction {
 
     @Override
     public void start() {
-        this.stopRobot();
-        //targetDistance = targetDistance + (long) botMotion.X_Position_Inches;
+        this.robot.setMotorDirection(mforward);
     }
 
     @Override

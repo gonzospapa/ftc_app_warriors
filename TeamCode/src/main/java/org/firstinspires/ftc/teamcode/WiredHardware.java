@@ -164,6 +164,22 @@ public class  WiredHardware
         motor.setPower(startPower);
     }
 
+    public void setMotorDirection(boolean foward) {
+
+        if (foward) {
+            initMotor(leftMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(leftBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(rightMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(rightBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+        } else {
+            initMotor(leftMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(leftBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(rightMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(rightBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+        }
+
+    }
+
     //Sets up all of the motors.
     private void initMotors(BotMotion botMotion) {
 

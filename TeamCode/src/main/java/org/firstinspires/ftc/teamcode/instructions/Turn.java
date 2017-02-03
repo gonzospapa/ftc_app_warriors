@@ -17,8 +17,6 @@ public class Turn extends BotInstruction {
 
     @Override
     public void start() {
-        // commented out since we need to always have this be a reference value from the start of the program
-        //botMotion.YawAngleOffset = Utils.convertheading(robot.getAngles()[0]);
         this.stopRobot();
     }
 
@@ -61,7 +59,6 @@ public class Turn extends BotInstruction {
     @Override
     public BotInstruction transition() {
         botMotion.targetHeading = this.targetHeading;
-        //botMotion.maxDrivePowerAchieved = false;
         botMotion.timeElapsedMotion = 0;
 
         try {

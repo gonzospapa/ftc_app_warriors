@@ -25,7 +25,7 @@ public class Move extends BotInstruction {
     public void start() {
         //Handle the fact the the encoders
         this.stopRobot();
-        //targetDistance = targetDistance + (long) botMotion.X_Position_Inches;
+        this.robot.setMotorDirection(mforward);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class MoveToBeacon extends BotInstruction {
 
     @Override
     public void start() {
-        this.stopRobot();
+        this.robot.setMotorDirection(mforward);
     }
 
     @Override
