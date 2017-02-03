@@ -64,18 +64,6 @@ public class WarriorsTank extends OpMode {
             robot.sweeperMotor.setPower( -gamepad2.right_stick_y*0.3);
             robot.elevatorMotor.setPower(-gamepad2.left_stick_y*0.2);
 
-             //if (botMotion.newLeftMotorPower > .75) {
-             //   botMotion.newLeftMotorPower = .75;
-            //} else if (botMotion.newLeftMotorPower < -.75) {
-            //    botMotion.newLeftMotorPower = -.75;
-            //}
-
-            //if (botMotion.newRightMotorPower > .75) {
-            //    botMotion.newRightMotorPower = .75;
-            //} else if (botMotion.newRightMotorPower < -.75) {
-            //    botMotion.newRightMotorPower = -.75;
-            //}
-
             if (gamepad1.right_bumper) {
                 robot.buttonPusher.setPosition(.75);
                 robot.buttonPusher.setDirection(Servo.Direction.FORWARD);
@@ -92,14 +80,8 @@ public class WarriorsTank extends OpMode {
 
             if (gamepad2.a) {
                 robot.ControlCrossBowMotorsSpeed(true, this.robot, this.botMotion);
-                //botMotion.isBallMotorOn = true;
-                //botMotion.shouldBallMotor = true;
-           } //else if (gamepad2.b) {
-               // botMotion.isBallMotorOn = false;
-                //botMotion.shouldBallMotor = true;
-            else {
+            } else {
                 robot.ControlCrossBowMotorsSpeed(false, this.robot, this.botMotion);
-                //botMotion.shouldBallMotor = false;
             }
 
             if (gamepad2.x) {
@@ -114,9 +96,7 @@ public class WarriorsTank extends OpMode {
                 botMotion.isElevatorOn = false;
             }
 
-            //Utils.setTime(botMotion);
             robot.setBallMotor(botMotion);
-           // robot.startupElevatorMotor(botMotion);
 
             botMotion.isSweepRev = 0;
 
@@ -126,8 +106,6 @@ public class WarriorsTank extends OpMode {
 
             if (errorMsg != null) {
                 telemetry.addData("err", errorMsg);
-            } else {
-                //telemetry.addData("ball", "%.2f", botMotion.newBallMotorSpeed);
             }
             updateTelemetry(telemetry);
 

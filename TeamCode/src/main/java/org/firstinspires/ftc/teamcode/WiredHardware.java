@@ -148,12 +148,6 @@ public class  WiredHardware
         elevatorMotor = ahwMap.dcMotor.get("elevator");
         sweeperMotor = ahwMap.dcMotor.get("sweep");
 
-        // bottomColorSensor = ahwMap.opticalDistanceSensor.get("btm_color_sensor");
-
-        //colorSensorFront = new RgbSensor(ahwMap, "color_front", "dim");
-        //colorSensorDownLeft = new RgbSensor(ahwMap, "color_left", "dim");
-        //colorSensorDownRight = new RgbSensor(ahwMap, "color_right", "dim");
-
         buttonPusher = ahwMap.servo.get("pusher");
     }
 
@@ -184,17 +178,13 @@ public class  WiredHardware
     private void initMotors(BotMotion botMotion) {
 
         initMotor(leftMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        //initMotor(leftBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(leftBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(leftBallmotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightBallmotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        //initMotor(rightBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(elevatorMotor, DcMotorSimple.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(sweeperMotor, DcMotorSimple.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-
-        //telemetry.addData("Say", "initMotors set");
 
         // Set all motors to zero power
         setAllMotors(botMotion);
@@ -206,17 +196,9 @@ public class  WiredHardware
             setUpElevatorMotorSpeed(0.06  , botMotion);
             setUpElevatorMotorSpeed(0.08, botMotion);
             setUpSweeperMotorSpeed(0.08, botMotion);
-            //  setUpSweeperMotorSpeed(0.25, botMotion);
         } else if (botMotion.isElevatorOn == false) {
             setUpElevatorMotorSpeed(0.0, botMotion);
-            // setUpSweeperMotorSpeed(0.0, botMotion);
-        } //else if (botMotion.isSweepRev == 1 && sweeperMotor.getDirection().equals(DcMotorSimple.Direction.REVERSE)) {
-        //  sweeperMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        //  setUpSweeperMotorSpeed(0.25, botMotion);
-        //} else if (botMotion.isSweepRev == 2 && sweeperMotor.getDirection().equals(DcMotorSimple.Direction.FORWARD)) {
-        // sweeperMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        //  setUpSweeperMotorSpeed(0.25, botMotion);
-        //}
+        }
     }
 
     //resets the elevator speed with a slight delay.
@@ -224,8 +206,6 @@ public class  WiredHardware
         Utils.delay(100);
         botMotion.newElevatorSpeed = speed;
         this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
-        //botMotion.newSweeperSpeed = speed;
-        //this.sweeperMotor.setPower(botMotion.newSweeperSpeed);
     }
     //resets the sweeper speed with a slight delay.
     public void setUpSweeperMotorSpeed(double speed, BotMotion botMotion) {
@@ -277,22 +257,13 @@ public class  WiredHardware
         this.leftBackMotor.setPower(botMotion.newLeftMotorPower);
         this.rightMotor.setPower(botMotion.newRightMotorPower);
         this.rightBackMotor.setPower(botMotion.newRightMotorPower);
-        //this.leftBallmotor.setPower(botMotion.newBallMotorSpeed);
-        //this.rightBallmotor.setPower(botMotion.newBallMotorSpeed);
-        //this.sweeperMotor.setPower(botMotion.newElevatorSpeed);
-        //this.elevatorMotor.setPower(botMotion.newElevatorSpeed);
-
-        //telemetry.addData("Say", "Speed set");
     }
 
-    public void resetEncoders() throws InterruptedException
-    {
+    public void resetEncoders() throws InterruptedException {
         this.leftBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.rightBackMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         this.rightBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         this.leftBackMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //this.rightMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-       // this.leftMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     public void stopAllMovement() {
