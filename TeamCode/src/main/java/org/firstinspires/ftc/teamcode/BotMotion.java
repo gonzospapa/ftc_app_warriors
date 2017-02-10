@@ -56,6 +56,7 @@ public class BotMotion {
     public double newSweeperSpeed = 0.0;
     public Orientation angles;
     public int isSweepRev = 0;
+    public boolean isSetVelocity = true;
 
 
 

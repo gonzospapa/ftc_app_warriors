@@ -181,10 +181,17 @@ public final class Utils {
         double elapsedTime = 0;
         long now = System.currentTimeMillis();
         elapsedTime = (now - botMotion.currentTime);
-        botMotion.currentTime = now;
+
+        if (elapsedTime >= 280) {
+            botMotion.isSetVelocity = true;
+            botMotion.currentTime = now;
+            botMotion.timeElapsed = elapsedTime;
+        } else {
+            botMotion.isSetVelocity = false;
+        }
+
         botMotion.ms = now;
         botMotion.elapsedTime = elapsedTime;
-        botMotion.timeElapsed = elapsedTime;
     }
 
     public static double convertEncoderDatToInches (double encoderVal) {
@@ -217,19 +224,18 @@ public final class Utils {
     }
 
     public static void IntegrateAcceleration(BotMotion botMotion) {
-        double elapsedTime = 0;
-        double duration = (botMotion.timeElapsed);
 
-        if (Math.abs(botMotion.xAcceleration) > 0.0)
-        {
-            botMotion.xVelocity = (botMotion.xAcceleration+botMotion.xAccelerationLast)*0.5*duration;
+        if(botMotion.isSetVelocity == true) {
+            double duration = (botMotion.timeElapsed);
 
-            botMotion.xAccelerationLast = botMotion.xAcceleration;
-        }
-        else
-        {
-            botMotion.xVelocity = 0;
-            botMotion.xAccelerationLast = 0;
+            if (Math.abs(botMotion.xAcceleration) > 0.0) {
+                botMotion.xVelocity = (botMotion.xAcceleration + botMotion.xAccelerationLast) * 0.5 * duration;
+
+                botMotion.xAccelerationLast = botMotion.xAcceleration;
+            } else {
+                botMotion.xVelocity = 0;
+                botMotion.xAccelerationLast = 0;
+            }
         }
 
     }
