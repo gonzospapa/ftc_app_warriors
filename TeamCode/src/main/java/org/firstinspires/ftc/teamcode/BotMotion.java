@@ -3,6 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Mike on 10/25/2016.
  */
@@ -57,6 +60,8 @@ public class BotMotion {
     public Orientation angles;
     public int isSweepRev = 0;
     public boolean isSetVelocity = true;
+    public List<Double> velocityset = new ArrayList<>();
+    public double lastVelocitySet = 0;
 
 
 

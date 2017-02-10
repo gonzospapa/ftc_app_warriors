@@ -182,15 +182,17 @@ public final class Utils {
         long now = System.currentTimeMillis();
         elapsedTime = (now - botMotion.currentTime);
 
-        if (elapsedTime >= 280) {
+        if ((now - botMotion.lastVelocitySet) >= 280) {
             botMotion.isSetVelocity = true;
-            botMotion.currentTime = now;
-            botMotion.timeElapsed = elapsedTime;
+            botMotion.lastVelocitySet = now;
         } else {
             botMotion.isSetVelocity = false;
         }
 
+        botMotion.currentTime = now;
+
         botMotion.ms = now;
+        botMotion.timeElapsed = elapsedTime;
         botMotion.elapsedTime = elapsedTime;
     }
 
@@ -224,20 +226,29 @@ public final class Utils {
     }
 
     public static void IntegrateAcceleration(BotMotion botMotion) {
+            double localVelocity = 0;
 
-        if(botMotion.isSetVelocity == true) {
             double duration = (botMotion.timeElapsed);
 
             if (Math.abs(botMotion.xAcceleration) > 0.0) {
-                botMotion.xVelocity = (botMotion.xAcceleration + botMotion.xAccelerationLast) * 0.5 * duration;
+                botMotion.velocityset.add(new Double((botMotion.xAcceleration + botMotion.xAccelerationLast) * 0.5 * duration));
 
                 botMotion.xAccelerationLast = botMotion.xAcceleration;
+
+                if(botMotion.isSetVelocity == true) {
+                    for (Double value : botMotion.velocityset) {
+                        localVelocity = localVelocity + value;
+                    }
+
+                    if (localVelocity != 0 && botMotion.velocityset.size() != 0) {
+                        localVelocity = localVelocity / botMotion.velocityset.size();
+                        botMotion.xVelocity = localVelocity;
+                    }
+                }
             } else {
                 botMotion.xVelocity = 0;
                 botMotion.xAccelerationLast = 0;
             }
-        }
-
     }
 
     public static double convertheading(double inputHeading) {
