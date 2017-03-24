@@ -29,7 +29,7 @@ public class FastTest extends OpMode {
         /* Initialize the hardware variables.
          * The init() method of the hardware class does all the work here
          */
-        botMotion = robot.init(hardwareMap, false);
+        botMotion = robot.init(hardwareMap, false, false);
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Say", "Hello Warrior");

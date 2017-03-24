@@ -5,6 +5,11 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.HardwarePushbot;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.abs;
+import static java.lang.Math.atan2;
+import static java.lang.StrictMath.sqrt;
+
 /**
  * Created by Mike on 10/25/2016.
  */
@@ -327,7 +332,89 @@ public final class Utils {
         }
     }
 
+    public void TestCode()
+    {
+        Vector testvec;
+        Holonomic_Wheels_PWR TestW;
+        testvec = getPolarJoy(0.707,0.707);
+        double fakevalue;
+        TestW = HolonomicRadianOutput(testvec.radians, testvec.speed,0);
+        fakevalue = 1.0;
 
+    }
+    public static Vector getPolarJoy(double joy_x, double joy_y) {
+        double x_val = joy_x;
+        double y_val = joy_y;
+
+        Vector returnValues = new Vector();
+
+        if((abs(x_val) < .1) && (abs(y_val) < .1)) {
+            returnValues.radians = 0;
+            returnValues.speed = 0;
+        }
+        else {
+            returnValues.radians = atan2(y_val,x_val);
+            returnValues.speed = sqrt((y_val * y_val) + (x_val * x_val));
+            //speed = tmpSpeed/127;
+            if(returnValues.speed > 1.0) returnValues.speed = 1.0;
+        }
+        return returnValues;
+    }
+
+    public static Holonomic_Wheels_PWR HolonomicRadianOutput(double radians, double speed, double rotation) {
+
+        double maxMotorSpeed = 0.707;
+        double[] Outputs = new double[4];
+        double MaxValue;
+        Holonomic_Wheels_PWR returnVals = new Holonomic_Wheels_PWR();
+        rotation = 0;
+
+        if (speed > 0.0)
+        {
+            returnVals.frontLeftOutput = -maxMotorSpeed * java.lang.Math.cos(PI / 4 - radians);
+            returnVals.frontRightOutput = maxMotorSpeed * java.lang.Math.cos(PI / 4 + radians);
+            returnVals.rearRightOutput = maxMotorSpeed * java.lang.Math.cos(PI / 4 - radians);
+            returnVals.rearLeftOutput = -maxMotorSpeed * java.lang.Math.cos(PI / 4 + radians);
+
+            Outputs[0] = returnVals.frontLeftOutput;
+            Outputs[1] = returnVals.frontRightOutput;
+            Outputs[2] = returnVals.rearLeftOutput;
+            Outputs[3] = returnVals.rearRightOutput;
+
+            MaxValue = getMaxValue(Outputs);
+
+            speed *= (maxMotorSpeed / MaxValue);
+
+
+            returnVals.frontLeftOutput *= speed;
+            returnVals.frontRightOutput *= speed;
+            returnVals.rearLeftOutput *= speed;
+            returnVals.rearRightOutput *= speed;
+        }
+        else
+        {
+            returnVals.frontLeftOutput = 0;
+            returnVals.frontRightOutput = 0;
+            returnVals.rearLeftOutput = 0;
+            returnVals.rearRightOutput = 0;
+        }
+
+        return returnVals;
+    }
+
+    public static double getMaxValue(double[] numbers){
+        double maxValue = abs(numbers[0]);
+        for(int i=1;i < numbers.length;i++){
+            if(abs(numbers[i]) > maxValue){
+                maxValue = abs(numbers[i]);
+            }
+        }
+        return maxValue;
+    }
+
+    public static class Vector{ double radians; double speed;}
+
+    public static class Holonomic_Wheels_PWR{ double frontLeftOutput; double frontRightOutput; double rearRightOutput ; double rearLeftOutput;}
 
 
 }

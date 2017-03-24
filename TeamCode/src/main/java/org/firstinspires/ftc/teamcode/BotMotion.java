@@ -39,6 +39,8 @@ public class BotMotion {
 
     public double VelocityThreshhold = 0.025;
 
+
+
     /**
      * If the is true we are going to change the ball motor from one state to another.
      */

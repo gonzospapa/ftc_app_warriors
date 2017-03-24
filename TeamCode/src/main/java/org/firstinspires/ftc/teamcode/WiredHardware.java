@@ -75,11 +75,11 @@ public class  WiredHardware
     }
 
     public BotMotion init(HardwareMap ahwMap) {
-        return this.init(ahwMap, true);
+        return this.init(ahwMap, true, true);
     }
 
     /* Initialize standard Hardware interfaces */
-    public BotMotion init(HardwareMap ahwMap, boolean useIMU) {
+    public BotMotion init(HardwareMap ahwMap, boolean useIMU, boolean useFourMotors) {
 
         BotMotion botMotion = new BotMotion();
 
@@ -87,20 +87,10 @@ public class  WiredHardware
         hwMap = ahwMap;
 
         // Define the hardware.
-        mapHardwareDevices(hwMap);
+        mapHardwareDevices(hwMap, useFourMotors);
 
         // Setup the motors
-        initMotors(botMotion);
-
-        // Define and initialize ALL installed servos.
-        buttonPusher.setPosition(MID_SERVO);
-        buttonPusher.setDirection(Servo.Direction.FORWARD);
-
-        if (useIMU) {
-            initIMU(ahwMap);
-            initODS(ahwMap);
-            initAdaFruitRGB(ahwMap);
-        }
+        initMotors(botMotion, useFourMotors );
 
         return botMotion;
     }
@@ -135,20 +125,25 @@ public class  WiredHardware
 
 
     //Map the phone configuration to the code.
-    private void mapHardwareDevices(HardwareMap ahwMap) {
+    private void mapHardwareDevices(HardwareMap ahwMap, boolean useFourMotors) {
         leftMotor   = ahwMap.dcMotor.get("left_front");
         rightMotor  = ahwMap.dcMotor.get("right_front");
 
-        leftBackMotor = ahwMap.dcMotor.get("left_back");
-        rightBackMotor = ahwMap.dcMotor.get("right_back");
+        if (useFourMotors)
+        {
 
-        leftBallmotor    = ahwMap.dcMotor.get("left_ball");
-        rightBallmotor    = ahwMap.dcMotor.get("right_ball");
+            leftBackMotor = ahwMap.dcMotor.get("left_back");
+            rightBackMotor = ahwMap.dcMotor.get("right_back");
+        }
 
-        elevatorMotor = ahwMap.dcMotor.get("elevator");
-        sweeperMotor = ahwMap.dcMotor.get("sweep");
-
-        buttonPusher = ahwMap.servo.get("pusher");
+//
+//        leftBallmotor    = ahwMap.dcMotor.get("left_ball");
+//        rightBallmotor    = ahwMap.dcMotor.get("right_ball");
+//
+//        elevatorMotor = ahwMap.dcMotor.get("elevator");
+//        sweeperMotor = ahwMap.dcMotor.get("sweep");
+//
+//        buttonPusher = ahwMap.servo.get("pusher");
     }
 
     //sets up a single motor
@@ -175,16 +170,21 @@ public class  WiredHardware
     }
 
     //Sets up all of the motors.
-    private void initMotors(BotMotion botMotion) {
+    private void initMotors(BotMotion botMotion, boolean useFourMotors) {
 
         initMotor(leftMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        initMotor(leftBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        initMotor(leftBallmotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        initMotor(rightBallmotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         initMotor(rightMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        initMotor(rightBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        initMotor(elevatorMotor, DcMotorSimple.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
-        initMotor(sweeperMotor, DcMotorSimple.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+
+        if (useFourMotors)
+        {
+
+            initMotor(leftBackMotor, DcMotor.Direction.REVERSE, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+            initMotor(rightBackMotor, DcMotor.Direction.FORWARD, DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+        }
+
+
+
+
 
         // Set all motors to zero power
         setAllMotors(botMotion);
@@ -254,9 +254,7 @@ public class  WiredHardware
 
     public void setAllMotors(BotMotion botMotion) {
         this.leftMotor.setPower(botMotion.newLeftMotorPower);
-        this.leftBackMotor.setPower(botMotion.newLeftMotorPower);
         this.rightMotor.setPower(botMotion.newRightMotorPower);
-        this.rightBackMotor.setPower(botMotion.newRightMotorPower);
     }
 
     public void resetEncoders() throws InterruptedException {
