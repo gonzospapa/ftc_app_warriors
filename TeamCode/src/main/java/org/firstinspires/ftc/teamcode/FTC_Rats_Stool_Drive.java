@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="FTC_Rats_Stool Drive: Teleop Tank", group="Rats")
+@TeleOp(name="FTC_Stool Drive: Barstool", group="WarriorsBot")
 public class FTC_Rats_Stool_Drive extends OpMode {
     /* Declare OpMode members. */
     private WiredHardware robot = new WiredHardware(telemetry); // use the class created to define a Pushbot's hardware
@@ -74,7 +74,7 @@ public class FTC_Rats_Stool_Drive extends OpMode {
             //botMotion.newRightMotorPower = -gamepad1.right_stick_y;
 
             // Send telemetry message to signify robot running;
-            telemetry.addData("testvec.radians", String.valueOf(TestW.frontLeftOutput) + "");
+            telemetry.addData("testvec.radians", String.valueOf(testvec.radians) + "");
             telemetry.addData("testvec.speed", String.valueOf(testvec.speed) + "");
 
             telemetry.addData("TestW.frontLeftOutput", String.valueOf(TestW.frontLeftOutput) + "");

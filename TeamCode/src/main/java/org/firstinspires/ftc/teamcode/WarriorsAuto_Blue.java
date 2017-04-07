@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.instructions.BotInstruction;
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.instructions.Turn;
  * Created by Mike Murphy on 11/18/2016.
  */
 @Autonomous(name = "WarriorsBot_2: LinearOpMode_blue", group = "WarriorsAuto")
-//@Disabled                     // Comment this out to add to the opmode list
+@Disabled                     // Comment this out to add to the opmode list
 public class WarriorsAuto_Blue extends LinearOpMode {
 
 

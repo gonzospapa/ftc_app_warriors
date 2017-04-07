@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="WarriorsBot: Teleop Tank", group="WarriorsBot")
+@TeleOp(name="WarriorsBot: Teleop Rat", group="WarriorsBot")
 public class WarriorsTank extends OpMode {
     /* Declare OpMode members. */
     private WiredHardware robot = new WiredHardware(telemetry); // use the class created to define a Pushbot's hardware
@@ -59,9 +59,17 @@ public class WarriorsTank extends OpMode {
             botMotion.newLeftMotorPower = -gamepad1.left_stick_y;
             botMotion.newRightMotorPower = -gamepad1.right_stick_y;
 
+
+
+            if (gamepad1.right_bumper) {
+                botMotion.newLeftMotorPower = 0.5;
+                botMotion.newRightMotorPower = 0.08;// 0.1  0.05
+            }
+            if (gamepad1.left_bumper) {
+                botMotion.newLeftMotorPower = 0.08;
+                botMotion.newRightMotorPower = 0.5;
+            }
             robot.setAllMotors(botMotion);
-
-
             if (errorMsg != null) {
                 telemetry.addData("err", errorMsg);
             }
