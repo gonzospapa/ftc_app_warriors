@@ -11,6 +11,10 @@ public class WarriorsTank extends OpMode {
     private WiredHardware robot = new WiredHardware(telemetry); // use the class created to define a Pushbot's hardware
     // could also use HardwarePushbotMatrix class.
     private BotMotion botMotion = null;
+    private double leftLeftAjust=0.08;
+    private double leftRightAjust=0.5;
+    private double rightLeftAjust=0.5;
+    private double rightRightAjust=0.08;
 
     private String errorMsg = null;
     /*
@@ -56,18 +60,20 @@ public class WarriorsTank extends OpMode {
 
             // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
             // In this section we are going to pickup what the controllers are doing.
-            botMotion.newLeftMotorPower = -gamepad1.left_stick_y;
-            botMotion.newRightMotorPower = -gamepad1.right_stick_y;
+            botMotion.newLeftMotorPower = -gamepad1.left_stick_y*0.75;
+            botMotion.newRightMotorPower = -gamepad1.right_stick_y*0.75;
 
 
 
             if (gamepad1.right_bumper) {
-                botMotion.newLeftMotorPower = 0.5;
-                botMotion.newRightMotorPower = 0.08;// 0.1  0.05
+                rightLeftAjust=rightLeftAjust+(-gamepad1.left_stick_y*0.05);
+                rightRightAjust=rightRightAjust+(-gamepad1.right_stick_y*0.05);
+                botMotion.newLeftMotorPower = rightLeftAjust;
+                botMotion.newRightMotorPower = rightRightAjust;// 0.1  0.05
             }
             if (gamepad1.left_bumper) {
-                botMotion.newLeftMotorPower = 0.08;
-                botMotion.newRightMotorPower = 0.5;
+                botMotion.newLeftMotorPower = leftLeftAjust;
+                botMotion.newRightMotorPower = leftRightAjust;
             }
             robot.setAllMotors(botMotion);
             if (errorMsg != null) {
